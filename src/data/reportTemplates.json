@@ -1,0 +1,28 @@
+[
+  {
+    "id": "rt1",
+    "name": "Ежемесячный отчёт",
+    "period": "month",
+    "sections": [
+      "kpi_summary",
+      "top_risks",
+      "actions_taken",
+      "economic_effect",
+      "recommendations"
+    ]
+  },
+  {
+    "id": "rt2",
+    "name": "Квартальный отчёт",
+    "period": "quarter",
+    "sections": [
+      "kpi_summary",
+      "top_risks",
+      "actions_taken",
+      "economic_effect",
+      "stakeholder_analysis",
+      "media_analysis",
+      "recommendations"
+    ]
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "u1",
+    "name": "Иванов Алексей Петрович",
+    "email": "ivanov@telecomsever.ru",
+    "role": "gr_manager",
+    "companyId": "c1",
+    "avatar": null
+  },
+  {
+    "id": "u2",
+    "name": "Петрова Мария Сергеевна",
+    "email": "petrova@telecomsever.ru",
+    "role": "lawyer",
+    "companyId": "c1",
+    "avatar": null
+  },
+  {
+    "id": "u3",
+    "name": "Сидоров Дмитрий Владимирович",
+    "email": "sidorov@telecomsever.ru",
+    "role": "executive",
+    "companyId": "c1",
+    "avatar": null
+  },
+  {
+    "id": "u4",
+    "name": "Козлова Анна Игоревна",
+    "email": "kozlova@vektorsv.ru",
+    "role": "gr_manager",
+    "companyId": "c2",
+    "avatar": null
+  },
+  {
+    "id": "u5",
+    "name": "Морозов Сергей Александрович",
+    "email": "morozov@infranet.ru",
+    "role": "gr_manager",
+    "companyId": "c3",
+    "avatar": null
+  },
+  {
+    "id": "u6",
+    "name": "Волкова Елена Николаевна",
+    "email": "volkova@consultant.ru",
+    "role": "consultant",
+    "companyId": null,
+    "avatar": null
+  },
+  {
+    "id": "u7",
+    "name": "Новиков Андрей Викторович",
+    "email": "novikov@consultant.ru",
+    "role": "consultant",
+    "companyId": null,
+    "avatar": null
+  },
+  {
+    "id": "u8",
+    "name": "Федорова Ольга Дмитриевна",
+    "email": "fedorova@digital.ru",
+    "role": "lawyer",
+    "companyId": "c4",
+    "avatar": null
+  }
+]
