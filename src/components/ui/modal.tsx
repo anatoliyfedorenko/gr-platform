@@ -10,6 +10,9 @@ const sizeClasses: Record<string, string> = {
   md: "max-w-md",
   lg: "max-w-lg",
   xl: "max-w-xl",
+  "2xl": "max-w-2xl",
+  "3xl": "max-w-3xl",
+  full: "max-w-4xl",
 };
 
 export interface ModalProps {
@@ -17,7 +20,7 @@ export interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
   className?: string;
 }
 
@@ -104,7 +107,7 @@ const Modal: React.FC<ModalProps> = ({
         )}
 
         {/* Content */}
-        <div className="px-6 py-4">{children}</div>
+        <div className="px-6 py-4 max-h-[85vh] overflow-y-auto">{children}</div>
       </div>
     </div>,
     document.body

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/store/useStore';
-import { ROLE_PERMISSIONS } from '@/lib/types';
-import type { Document } from '@/lib/types';
+import { ROLE_PERMISSIONS, TEMPLATE_LABELS } from '@/lib/types';
+import type { Document, TemplateType } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,7 +12,8 @@ import { SearchInput } from '@/components/ui/search-input';
 import { Select } from '@/components/ui/select';
 import { DataTable } from '@/components/ui/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Plus, FileText } from 'lucide-react';
+import { Plus, FileText, ChevronDown } from 'lucide-react';
+import { TemplateWizard } from '@/components/templates/TemplateWizard';
 
 const TYPE_LABELS: Record<string, string> = {
   position_paper: 'Служебная записка',
@@ -71,6 +72,10 @@ export default function DocumentsPage() {
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateType | undefined>(undefined);
+  const [createDropdownOpen, setCreateDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const permissions = ROLE_PERMISSIONS[currentRole];
 
@@ -78,6 +83,19 @@ export default function DocumentsPage() {
     const timer = setTimeout(() => setIsLoading(false), 400);
     return () => clearTimeout(timer);
   }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setCreateDropdownOpen(false);
+      }
+    }
+    if (createDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [createDropdownOpen]);
 
   // Build lookup for users
   const usersMap = useMemo(() => {
@@ -205,30 +223,33 @@ export default function DocumentsPage() {
           <Badge variant="default">{documents.length}</Badge>
         </div>
         {permissions.canCreate && (
-          <Button onClick={() => {
-            const newDoc: Document = {
-              id: `doc-${Date.now()}`,
-              title: 'Новый документ',
-              type: 'position_paper',
-              initiativeId: null,
-              status: 'draft',
-              owner: 'u1',
-              createdAt: new Date().toISOString().split('T')[0],
-              updatedAt: new Date().toISOString().split('T')[0],
-              content: {
-                sections: [
-                  { title: 'Раздел 1', text: '' },
-                ],
-              },
-              relatedStakeholderIds: [],
-              companyId: 'c1',
-            };
-            useStore.getState().addDocument(newDoc);
-            router.push(`/app/documents/${newDoc.id}`);
-          }}>
-            <Plus className="h-4 w-4" />
-            Создать документ
-          </Button>
+          <div className="relative" ref={dropdownRef}>
+            <Button onClick={() => setCreateDropdownOpen(!createDropdownOpen)}>
+              <Plus className="h-4 w-4" />
+              Создать документ
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+            {createDropdownOpen && (
+              <div className="absolute right-0 z-10 mt-1 w-72 rounded-md border border-gray-200 bg-white shadow-lg">
+                <div className="py-1">
+                  {(['analytical_note', 'legislative_amendment', 'official_letter', 'gr_report', 'presentation'] as TemplateType[]).map((type) => (
+                    <button
+                      key={type}
+                      type="button"
+                      className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                      onClick={() => {
+                        setSelectedTemplate(type);
+                        setWizardOpen(true);
+                        setCreateDropdownOpen(false);
+                      }}
+                    >
+                      {TEMPLATE_LABELS[type]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
 
@@ -273,6 +294,13 @@ export default function DocumentsPage() {
           pageSize={10}
         />
       )}
+
+      <TemplateWizard
+        open={wizardOpen}
+        onClose={() => setWizardOpen(false)}
+        preselectedTemplate={selectedTemplate}
+        entryPoint="document"
+      />
     </div>
   );
 }

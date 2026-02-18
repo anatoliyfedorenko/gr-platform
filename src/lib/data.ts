@@ -1,5 +1,6 @@
 import { sleep } from './utils';
 import { useStore } from '@/store/useStore';
+import type { Company } from '@/lib/types';
 
 export async function getInitiatives() {
   await sleep(400);
@@ -36,10 +37,9 @@ export async function getNotifications() {
   return useStore.getState().notifications;
 }
 
-export async function getCompanies() {
+export async function getCompanies(): Promise<Company[]> {
   await sleep(200);
-  const companies = await import('@/data/companies.json');
-  return companies.default;
+  return useStore.getState().companies;
 }
 
 export async function getUsers() {

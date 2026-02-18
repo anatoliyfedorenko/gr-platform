@@ -1,3 +1,28 @@
+// ── Template Types ──────────────────────────────────────────────────────────
+
+export type TemplateType = 'analytical_note' | 'legislative_amendment' | 'official_letter' | 'gr_report' | 'presentation';
+
+export interface Addressee {
+  name: string;
+  title: string;
+  organization: string;
+  address?: string;
+}
+
+export interface ExportRecord {
+  format: string;
+  date: string;
+  filename: string;
+}
+
+export const TEMPLATE_LABELS: Record<TemplateType, string> = {
+  analytical_note: 'Аналитическая записка',
+  legislative_amendment: 'Предложение по изменению законодательства',
+  official_letter: 'Официальное письмо',
+  gr_report: 'Отчёт о GR-деятельности',
+  presentation: 'Презентация',
+};
+
 // ── Role Types ──────────────────────────────────────────────────────────────
 
 export type UserRole = 'gr_manager' | 'lawyer' | 'executive' | 'consultant';
@@ -13,6 +38,12 @@ export interface Company {
   industry: string;
   region: string;
   employees: number;
+  grCenterName?: string;
+  execName?: string;
+  execTitle?: string;
+  outgoingLetterNumberCounter?: number;
+  keyTopics?: string[];
+  logo?: string;
 }
 
 export interface User {
@@ -55,6 +86,11 @@ export interface Initiative {
   stakeholderIds: string[];
   mediaMentions: MediaMention[];
   companyIds: string[];
+  domainArea?: string;
+  riskJustification?: string;
+  opportunities?: string[];
+  estimatedEconomicImpact?: { min: number; max: number };
+  fullTextLinks?: string[];
 }
 
 // ── Stakeholder ─────────────────────────────────────────────────────────────
@@ -87,6 +123,7 @@ export interface Stakeholder {
   };
   lastInteraction: string;
   interactions: Interaction[];
+  contactAddress?: string;
 }
 
 // ── Document ────────────────────────────────────────────────────────────────
@@ -110,6 +147,10 @@ export interface Document {
   };
   relatedStakeholderIds: string[];
   companyId: string;
+  templateType?: TemplateType;
+  addressee?: Addressee;
+  outgoingNumber?: string;
+  exportHistory?: ExportRecord[];
 }
 
 // ── Notification ────────────────────────────────────────────────────────────

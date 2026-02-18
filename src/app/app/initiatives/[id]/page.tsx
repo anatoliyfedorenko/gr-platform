@@ -8,6 +8,7 @@ import {
   FileText,
   Send,
   Edit3,
+  Presentation,
   ChevronRight,
   Star,
   Clock,
@@ -24,11 +25,11 @@ import {
   BookmarkCheck,
   MessageSquare,
   Plus,
-  Check,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useStore } from "@/store/useStore";
 import { ROLE_PERMISSIONS } from "@/lib/types";
+import type { TemplateType } from "@/lib/types";
 import { cn, formatDate } from "@/lib/utils";
 import { Badge, StatusBadge, RiskBadge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -41,11 +42,8 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
-import { Modal } from "@/components/ui/modal";
-import { Input } from "@/components/ui/input";
-import { TextArea } from "@/components/ui/textarea";
-import { Select } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TemplateWizard } from "@/components/templates/TemplateWizard";
 
 import initiativesData from "@/data/initiatives.json";
 import stakeholdersData from "@/data/stakeholders.json";
@@ -176,72 +174,6 @@ function getRiskExplanation(risk: string, title: string): string {
   return explanations[risk] || explanations.medium;
 }
 
-// Document generation draft text
-function generateDraftText(
-  type: string,
-  initiative: any,
-  addressee: string,
-  sections: string[]
-): Record<string, string> {
-  const riskLabel = RISK_MAP[initiative.risk] || initiative.risk;
-  const statusLabel = STATUS_MAP[initiative.status] || initiative.status;
-  const result: Record<string, string> = {};
-
-  if (type === "memo") {
-    result.header = `СЛУЖЕБНАЯ ЗАПИСКА\n\nО регуляторной инициативе: ${initiative.title}\n\nДата: ${formatDate(new Date().toISOString())}\nСтатус: ${statusLabel} | Уровень риска: ${riskLabel}`;
-  } else if (type === "letter") {
-    result.header = `ОФИЦИАЛЬНОЕ ПИСЬМО\n\n${addressee ? `Кому: ${addressee}` : ""}\n\nУважаемый(ая) ${addressee || "[Адресат]"},\n\nНастоящим письмом хотели бы обратить Ваше внимание на инициативу "${initiative.title}", находящуюся в статусе "${statusLabel}".`;
-  } else {
-    result.header = `ПРЕДЛОЖЕНИЕ ПОПРАВОК\n\nК документу: ${initiative.title}\nИсточник: ${initiative.source}\nТекущий статус: ${statusLabel}`;
-  }
-
-  if (sections.includes("description")) {
-    result.description = `ОПИСАНИЕ СИТУАЦИИ\n\n${initiative.summary}\n\nИнициатива была разработана ${initiative.source} и в настоящее время находится на этапе "${statusLabel}". ${initiative.deadline ? `Планируемый срок принятия решения: ${formatDate(initiative.deadline)}.` : ""}`;
-  }
-
-  if (sections.includes("risks")) {
-    result.risks = `АНАЛИЗ РИСКОВ\n\nУровень риска данной инициативы оценивается как ${riskLabel.toLowerCase()}. ${getRiskExplanation(initiative.risk, initiative.title)}\n\nОсновные факторы риска:\n${getImpactAreas(initiative.topic).map((a) => `- ${a}`).join("\n")}`;
-  }
-
-  if (sections.includes("recommendations")) {
-    result.recommendations = `РЕКОМЕНДАЦИИ\n\n1. Провести детальный анализ влияния инициативы на деятельность компании\n2. Подготовить позиционный документ с обоснованием позиции\n3. Организовать встречу с ключевыми стейкхолдерами для согласования позиции\n4. Обеспечить участие экспертов компании в рабочих группах при ${initiative.source}`;
-  }
-
-  if (sections.includes("legal")) {
-    result.legal = `ПРАВОВОЕ ОБОСНОВАНИЕ\n\nВ соответствии с действующим законодательством Российской Федерации, в частности с Федеральным законом "О связи" и Федеральным законом "Об информации, информационных технологиях и о защите информации", предлагаемая инициатива затрагивает следующие правовые аспекты:\n\n- Соответствие существующей нормативно-правовой базе\n- Необходимость адаптации внутренних регламентов компании\n- Возможные правовые последствия при различных сценариях развития`;
-  }
-
-  return result;
-}
-
-type WizardStep = 1 | 2 | 3;
-
-interface WizardState {
-  type: "memo" | "letter" | "amendment";
-  addressee: string;
-  tone: "formal" | "neutral";
-  sections: string[];
-  drafts: Record<string, string>;
-}
-
-const TYPE_OPTIONS = [
-  { value: "memo", label: "Служебная записка" },
-  { value: "letter", label: "Официальное письмо" },
-  { value: "amendment", label: "Предложение поправок" },
-];
-
-const TONE_OPTIONS = [
-  { value: "formal", label: "Формальный" },
-  { value: "neutral", label: "Нейтральный" },
-];
-
-const SECTION_OPTIONS = [
-  { value: "description", label: "Описание ситуации" },
-  { value: "risks", label: "Анализ рисков" },
-  { value: "recommendations", label: "Рекомендации" },
-  { value: "legal", label: "Правовое обоснование" },
-];
-
 export default function InitiativeDetailPage() {
   const router = useRouter();
   const params = useParams();
@@ -251,16 +183,9 @@ export default function InitiativeDetailPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [isTracking, setIsTracking] = useState(true);
-  const [showWizard, setShowWizard] = useState(false);
-  const [wizardStep, setWizardStep] = useState<WizardStep>(1);
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateType | undefined>(undefined);
   const [showActionsDropdown, setShowActionsDropdown] = useState(false);
-  const [wizard, setWizard] = useState<WizardState>({
-    type: "memo",
-    addressee: "",
-    tone: "formal",
-    sections: ["description", "risks", "recommendations"],
-    drafts: {},
-  });
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 500);
@@ -316,54 +241,9 @@ export default function InitiativeDetailPage() {
     });
   };
 
-  const openWizard = (type: "memo" | "letter" | "amendment") => {
-    setWizard({
-      type,
-      addressee: "",
-      tone: "formal",
-      sections: ["description", "risks", "recommendations"],
-      drafts: {},
-    });
-    setWizardStep(1);
-    setShowWizard(true);
-  };
-
-  const handleWizardNext = () => {
-    if (wizardStep === 1) {
-      // Generate draft
-      const drafts = generateDraftText(
-        wizard.type,
-        initiative,
-        wizard.addressee,
-        wizard.sections
-      );
-      setWizard((prev) => ({ ...prev, drafts }));
-      setWizardStep(2);
-    } else if (wizardStep === 2) {
-      setWizardStep(3);
-    }
-  };
-
-  const handleWizardSave = () => {
-    const typeLabels: Record<string, string> = {
-      memo: "Служебная записка",
-      letter: "Официальное письмо",
-      amendment: "Предложение поправок",
-    };
-
-    const newDocId = `doc-${Date.now()}`;
-    toast.success("Документ создан", {
-      description: `${typeLabels[wizard.type]} сохранена как черновик`,
-    });
-    setShowWizard(false);
-    router.push(`/app/documents/${newDocId}`);
-  };
-
-  const handleDraftChange = (key: string, value: string) => {
-    setWizard((prev) => ({
-      ...prev,
-      drafts: { ...prev.drafts, [key]: value },
-    }));
+  const openTemplateWizard = (template: TemplateType) => {
+    setSelectedTemplate(template);
+    setWizardOpen(true);
   };
 
   if (loading) {
@@ -884,7 +764,7 @@ export default function InitiativeDetailPage() {
                     variant="outline"
                     className="w-full justify-start text-left"
                     size="sm"
-                    onClick={() => openWizard("memo")}
+                    onClick={() => openTemplateWizard("analytical_note")}
                     disabled={!canCreate}
                     title={
                       !canCreate
@@ -893,14 +773,30 @@ export default function InitiativeDetailPage() {
                     }
                   >
                     <FileText className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">Сгенерировать записку</span>
+                    <span className="truncate">Аналитическая записка</span>
                   </Button>
 
                   <Button
                     variant="outline"
                     className="w-full justify-start text-left"
                     size="sm"
-                    onClick={() => openWizard("letter")}
+                    onClick={() => openTemplateWizard("legislative_amendment")}
+                    disabled={!canCreate}
+                    title={
+                      !canCreate
+                        ? "Недостаточно прав для создания документов"
+                        : undefined
+                    }
+                  >
+                    <Edit3 className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">Предложение поправок</span>
+                  </Button>
+
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-left"
+                    size="sm"
+                    onClick={() => openTemplateWizard("official_letter")}
                     disabled={!canCreate}
                     title={
                       !canCreate
@@ -916,7 +812,7 @@ export default function InitiativeDetailPage() {
                     variant="outline"
                     className="w-full justify-start text-left"
                     size="sm"
-                    onClick={() => openWizard("amendment")}
+                    onClick={() => openTemplateWizard("presentation")}
                     disabled={!canCreate}
                     title={
                       !canCreate
@@ -924,8 +820,8 @@ export default function InitiativeDetailPage() {
                         : undefined
                     }
                   >
-                    <Edit3 className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">Предложение поправок</span>
+                    <Presentation className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">Презентация</span>
                   </Button>
                 </div>
 
@@ -1048,248 +944,15 @@ export default function InitiativeDetailPage() {
         </div>
       </div>
 
-      {/* Document Generation Wizard Modal */}
-      <Modal
-        open={showWizard}
-        onClose={() => setShowWizard(false)}
-        title="Генерация документа"
-        size="xl"
-      >
-        <div className="space-y-6">
-          {/* Step indicator */}
-          <div className="flex items-center gap-2">
-            {[1, 2, 3].map((step) => (
-              <React.Fragment key={step}>
-                <div
-                  className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium",
-                    wizardStep >= step
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-400"
-                  )}
-                >
-                  {wizardStep > step ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    step
-                  )}
-                </div>
-                {step < 3 && (
-                  <div
-                    className={cn(
-                      "h-0.5 flex-1",
-                      wizardStep > step ? "bg-blue-600" : "bg-gray-200"
-                    )}
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-
-          <div className="text-sm text-gray-500">
-            {wizardStep === 1 && "Шаг 1: Параметры документа"}
-            {wizardStep === 2 && "Шаг 2: Предварительный просмотр и редактирование"}
-            {wizardStep === 3 && "Шаг 3: Подтверждение и сохранение"}
-          </div>
-
-          {/* Step 1: Parameters */}
-          {wizardStep === 1 && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Тип документа
-                </label>
-                <Select
-                  options={TYPE_OPTIONS}
-                  value={wizard.type}
-                  onChange={(v) =>
-                    setWizard((prev) => ({
-                      ...prev,
-                      type: v as "memo" | "letter" | "amendment",
-                    }))
-                  }
-                />
-              </div>
-
-              {wizard.type === "letter" && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Адресат
-                  </label>
-                  <Input
-                    value={wizard.addressee}
-                    onChange={(e) =>
-                      setWizard((prev) => ({
-                        ...prev,
-                        addressee: e.target.value,
-                      }))
-                    }
-                    placeholder="ФИО и должность адресата"
-                  />
-                </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Тон документа
-                </label>
-                <Select
-                  options={TONE_OPTIONS}
-                  value={wizard.tone}
-                  onChange={(v) =>
-                    setWizard((prev) => ({
-                      ...prev,
-                      tone: v as "formal" | "neutral",
-                    }))
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Разделы документа
-                </label>
-                <div className="space-y-2">
-                  {SECTION_OPTIONS.map((section) => (
-                    <label
-                      key={section.value}
-                      className="flex items-center gap-2 cursor-pointer"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={wizard.sections.includes(section.value)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setWizard((prev) => ({
-                              ...prev,
-                              sections: [...prev.sections, section.value],
-                            }));
-                          } else {
-                            setWizard((prev) => ({
-                              ...prev,
-                              sections: prev.sections.filter(
-                                (s) => s !== section.value
-                              ),
-                            }));
-                          }
-                        }}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="text-sm text-gray-700">
-                        {section.label}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Step 2: Preview & Edit */}
-          {wizardStep === 2 && (
-            <div className="space-y-4 max-h-96 overflow-y-auto">
-              {Object.entries(wizard.drafts).map(([key, value]) => (
-                <div key={key}>
-                  <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1">
-                    {key === "header"
-                      ? "Заголовок"
-                      : key === "description"
-                        ? "Описание ситуации"
-                        : key === "risks"
-                          ? "Анализ рисков"
-                          : key === "recommendations"
-                            ? "Рекомендации"
-                            : key === "legal"
-                              ? "Правовое обоснование"
-                              : key}
-                  </label>
-                  <TextArea
-                    value={value}
-                    onChange={(e) => handleDraftChange(key, e.target.value)}
-                    rows={6}
-                    className="font-mono text-xs"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Step 3: Confirm */}
-          {wizardStep === 3 && (
-            <div className="space-y-4">
-              <div className="rounded-lg bg-green-50 border border-green-200 p-4">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <p className="text-sm font-medium text-green-800">
-                    Документ готов к сохранению
-                  </p>
-                </div>
-                <p className="mt-1 text-sm text-green-700">
-                  Документ будет сохранён как черновик. Вы сможете
-                  отредактировать его позже.
-                </p>
-              </div>
-
-              <div className="rounded-lg bg-gray-50 p-4 space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Тип:</span>
-                  <span className="font-medium text-gray-900">
-                    {TYPE_OPTIONS.find((t) => t.value === wizard.type)?.label}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Инициатива:</span>
-                  <span className="font-medium text-gray-900 text-right max-w-xs truncate">
-                    {initiative.title}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Статус:</span>
-                  <Badge variant="yellow">Черновик</Badge>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">Разделов:</span>
-                  <span className="font-medium text-gray-900">
-                    {Object.keys(wizard.drafts).length}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation buttons */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-            <Button
-              variant="ghost"
-              onClick={() => {
-                if (wizardStep === 1) {
-                  setShowWizard(false);
-                } else {
-                  setWizardStep((wizardStep - 1) as WizardStep);
-                }
-              }}
-            >
-              {wizardStep === 1 ? "Отмена" : "Назад"}
-            </Button>
-
-            {wizardStep < 3 ? (
-              <Button
-                onClick={handleWizardNext}
-                disabled={
-                  wizardStep === 1 && wizard.sections.length === 0
-                }
-              >
-                Далее
-              </Button>
-            ) : (
-              <Button onClick={handleWizardSave}>
-                <Check className="h-4 w-4" />
-                Сохранить документ
-              </Button>
-            )}
-          </div>
-        </div>
-      </Modal>
+      {/* Template Wizard */}
+      <TemplateWizard
+        open={wizardOpen}
+        onClose={() => setWizardOpen(false)}
+        preselectedTemplate={selectedTemplate}
+        initiativeId={id}
+        companyId={initiative?.companyIds?.[0]}
+        entryPoint="initiative"
+      />
     </div>
   );
 }

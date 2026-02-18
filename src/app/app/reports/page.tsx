@@ -40,6 +40,7 @@ import { Select } from '@/components/ui/select';
 import { KPICard } from '@/components/ui/kpi-card';
 import { Modal } from '@/components/ui/modal';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TemplateWizard } from '@/components/templates/TemplateWizard';
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -134,6 +135,7 @@ export default function ReportsPage() {
   const [selectedPeriod, setSelectedPeriod] = useState('2026-02');
   const [exportModalOpen, setExportModalOpen] = useState(false);
   const [exportFormat, setExportFormat] = useState<'pdf' | 'pptx'>('pdf');
+  const [reportWizardOpen, setReportWizardOpen] = useState(false);
 
   // Simulate loading
   useEffect(() => {
@@ -327,6 +329,18 @@ export default function ReportsPage() {
             onChange={setSelectedPeriod}
             className="w-44"
           />
+
+          {/* Generate report button */}
+          {permissions?.canCreate && (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => setReportWizardOpen(true)}
+            >
+              <FileText className="h-4 w-4" />
+              Сгенерировать отчёт
+            </Button>
+          )}
 
           {/* Export buttons */}
           {permissions?.canExport && (
@@ -684,6 +698,14 @@ export default function ReportsPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Template Wizard for GR Report */}
+      <TemplateWizard
+        open={reportWizardOpen}
+        onClose={() => setReportWizardOpen(false)}
+        preselectedTemplate="gr_report"
+        entryPoint="report"
+      />
 
       {/* Export Modal */}
       <Modal

@@ -9,6 +9,7 @@
     "position": "Поддержка",
     "topics": ["5G", "Инфраструктура", "Частоты"],
     "contacts": { "email": "shadaev@mintsifry.gov.ru", "phone": "+7 (495) 771-80-00" },
+    "contactAddress": "123112, г. Москва, Пресненская наб., д. 10, стр. 2",
     "lastInteraction": "2025-10-15",
     "interactions": [
       {
@@ -41,6 +42,7 @@
     "position": "Поддержка",
     "topics": ["5G", "Частоты", "Инфраструктура"],
     "contacts": { "email": "lipov@mintsifry.gov.ru", "phone": "+7 (495) 771-80-01" },
+    "contactAddress": "123112, г. Москва, Пресненская наб., д. 10, стр. 2",
     "lastInteraction": "2025-11-02",
     "interactions": [
       {
@@ -73,6 +75,7 @@
     "position": "Нейтральная",
     "topics": ["Персональные данные", "Кибербезопасность", "Тарифы"],
     "contacts": { "email": "ivanov_a@rkn.gov.ru", "phone": "+7 (495) 987-68-00" },
+    "contactAddress": "109992, г. Москва, Китайгородский пр., д. 7, стр. 2",
     "lastInteraction": "2025-10-28",
     "interactions": [
       {
@@ -105,6 +108,7 @@
     "position": "Нейтральная",
     "topics": ["Персональные данные", "Кибербезопасность"],
     "contacts": { "email": "subbotin@rkn.gov.ru", "phone": "+7 (495) 987-68-01" },
+    "contactAddress": "109992, г. Москва, Китайгородский пр., д. 7, стр. 2",
     "lastInteraction": "2025-09-30",
     "interactions": [
       {
@@ -137,6 +141,7 @@
     "position": "Поддержка",
     "topics": ["5G", "Кибербезопасность", "Персональные данные", "Инфраструктура"],
     "contacts": { "email": "hinshtein@duma.gov.ru", "phone": "+7 (495) 692-80-00" },
+    "contactAddress": "103265, г. Москва, ул. Охотный Ряд, д. 1",
     "lastInteraction": "2025-11-10",
     "interactions": [
       {
@@ -169,6 +174,7 @@
     "position": "Нейтральная",
     "topics": ["Персональные данные", "Кибербезопасность"],
     "contacts": { "email": "gorelkin@duma.gov.ru", "phone": "+7 (495) 692-80-01" },
+    "contactAddress": "103265, г. Москва, ул. Охотный Ряд, д. 1",
     "lastInteraction": "2025-10-20",
     "interactions": [
       {
@@ -201,6 +207,7 @@
     "position": "Оппозиция",
     "topics": ["Тарифы", "5G", "Инфраструктура"],
     "contacts": { "email": "maksimov@fas.gov.ru", "phone": "+7 (499) 755-23-00" },
+    "contactAddress": "125993, г. Москва, ул. Садовая-Кудринская, д. 11",
     "lastInteraction": "2025-11-05",
     "interactions": [
       {
@@ -233,6 +240,7 @@
     "position": "Нейтральная",
     "topics": ["Тарифы"],
     "contacts": { "email": "belyakov@fas.gov.ru", "phone": "+7 (499) 755-23-01" },
+    "contactAddress": "125993, г. Москва, ул. Садовая-Кудринская, д. 11",
     "lastInteraction": "2025-09-25",
     "interactions": [
       {
@@ -265,6 +273,7 @@
     "position": "Поддержка",
     "topics": ["Инфраструктура", "5G"],
     "contacts": { "email": "kuznetsov@council.gov.ru", "phone": "+7 (495) 426-60-00" },
+    "contactAddress": "103426, г. Москва, ул. Большая Дмитровка, д. 26",
     "lastInteraction": "2025-10-12",
     "interactions": [
       {
@@ -297,6 +306,7 @@
     "position": "Поддержка",
     "topics": ["5G", "Инфраструктура"],
     "contacts": { "email": "romanova@economy.gov.ru", "phone": "+7 (495) 694-03-53" },
+    "contactAddress": "125993, г. Москва, ул. Тверская, д. 7",
     "lastInteraction": "2025-10-18",
     "interactions": [
       {

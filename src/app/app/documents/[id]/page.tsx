@@ -3,8 +3,10 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useStore } from '@/store/useStore';
-import { ROLE_PERMISSIONS } from '@/lib/types';
-import type { Document, DocumentSection } from '@/lib/types';
+import { ROLE_PERMISSIONS, TEMPLATE_LABELS } from '@/lib/types';
+import type { Document, DocumentSection, TemplateType } from '@/lib/types';
+import { SlidePreview } from '@/components/templates/SlidePreview';
+import { generateExportFilename } from '@/lib/templates/utils';
 import { cn, formatDate } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -27,6 +29,11 @@ import {
   Building2,
   Tag,
   Users,
+  Presentation as PresentationIcon,
+  Eye,
+  EyeOff,
+  Hash,
+  MapPin,
 } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
@@ -94,6 +101,7 @@ export default function DocumentDetailPage() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState('');
   const [exportModalOpen, setExportModalOpen] = useState(false);
+  const [slideViewMode, setSlideViewMode] = useState(false);
 
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -148,10 +156,20 @@ export default function DocumentDetailPage() {
 
   const handleMarkSent = () => {
     if (!document) return;
-    updateDocument(document.id, {
+    const updates: Partial<typeof document> = {
       status: 'sent',
       updatedAt: new Date().toISOString().split('T')[0],
-    });
+    };
+    // For official letters, set outgoing number if not already set
+    if (document.templateType === 'official_letter' && !document.outgoingNumber) {
+      const company = useStore.getState().companies.find((c) => c.id === document.companyId);
+      if (company) {
+        const counter = (company.outgoingLetterNumberCounter || 100) + 1;
+        updates.outgoingNumber = `${counter}/${new Date().getFullYear()}`;
+        useStore.getState().updateCompany(company.id, { outgoingLetterNumberCounter: counter });
+      }
+    }
+    updateDocument(document.id, updates);
     toast.success('Документ отмечен как отправленный');
   };
 
@@ -174,9 +192,23 @@ export default function DocumentDetailPage() {
     const url = URL.createObjectURL(blob);
     const a = window.document.createElement('a');
     a.href = url;
-    a.download = `${document.title.replace(/[^a-zA-Zа-яА-ЯёЁ0-9 ]/g, '')}.txt`;
+
+    // Use template-aware filename
+    const ext = document.templateType === 'presentation' ? 'pptx' : 'pdf';
+    const companyName = COMPANIES_MAP[document.companyId] || 'Company';
+    const filename = document.templateType
+      ? generateExportFilename(document.templateType as TemplateType, companyName, new Date().toISOString().split('T')[0], ext)
+      : `${document.title.replace(/[^a-zA-Zа-яА-ЯёЁ0-9 ]/g, '')}.txt`;
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+
+    // Log export history
+    const exportRecord = { format: ext, date: new Date().toISOString().split('T')[0], filename };
+    updateDocument(document.id, {
+      exportHistory: [...(document.exportHistory || []), exportRecord],
+    });
+
     setExportModalOpen(false);
     toast.success('Документ экспортирован');
   };
@@ -280,55 +312,79 @@ export default function DocumentDetailPage() {
         <div className="flex-1 min-w-0">
           <Card>
             <CardHeader>
-              {canEdit ? (
-                <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="text-xl font-bold border-none shadow-none px-0 focus:ring-0 text-gray-900"
-                  placeholder="Название документа"
-                />
-              ) : (
-                <CardTitle className="text-xl">{title}</CardTitle>
-              )}
+              <div className="flex items-center">
+                {canEdit ? (
+                  <Input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="text-xl font-bold border-none shadow-none px-0 focus:ring-0 text-gray-900"
+                    placeholder="Название документа"
+                  />
+                ) : (
+                  <CardTitle className="text-xl">{title}</CardTitle>
+                )}
+                {document.templateType === 'presentation' && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSlideViewMode(!slideViewMode)}
+                    className="ml-auto"
+                  >
+                    {slideViewMode ? <EyeOff className="h-4 w-4 mr-1" /> : <Eye className="h-4 w-4 mr-1" />}
+                    {slideViewMode ? 'Текстовый вид' : 'Вид слайдов'}
+                  </Button>
+                )}
+              </div>
             </CardHeader>
             <CardContent className="space-y-6">
-              {sections.map((section, idx) => (
-                <div
-                  key={idx}
-                  ref={(el) => { sectionRefs.current[idx] = el; }}
-                  className={cn(
-                    'rounded-lg border p-4 transition-colors',
-                    activeSection === idx ? 'border-blue-300 bg-blue-50/30' : 'border-gray-200'
-                  )}
-                  onClick={() => setActiveSection(idx)}
-                >
-                  {canEdit ? (
-                    <Input
-                      value={section.title}
-                      onChange={(e) => updateSectionTitle(idx, e.target.value)}
-                      className="text-base font-semibold border-none shadow-none px-0 focus:ring-0 mb-3 text-gray-900"
-                      placeholder="Заголовок раздела"
-                    />
-                  ) : (
-                    <h3 className="text-base font-semibold text-gray-900 mb-3">
-                      {section.title}
-                    </h3>
-                  )}
-                  {canEdit ? (
-                    <TextArea
-                      value={section.text}
-                      onChange={(e) => updateSectionText(idx, e.target.value)}
-                      rows={6}
-                      className="resize-y"
-                      placeholder="Текст раздела..."
-                    />
-                  ) : (
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
-                      {section.text}
-                    </p>
-                  )}
-                </div>
-              ))}
+              {slideViewMode && document.templateType === 'presentation' ? (
+                <SlidePreview
+                  slides={sections}
+                  editable={canEdit}
+                  onEditSlide={(index, field, value) => {
+                    if (field === 'title') updateSectionTitle(index, value);
+                    else updateSectionText(index, value);
+                  }}
+                />
+              ) : (
+                sections.map((section, idx) => (
+                  <div
+                    key={idx}
+                    ref={(el) => { sectionRefs.current[idx] = el; }}
+                    className={cn(
+                      'rounded-lg border p-4 transition-colors',
+                      activeSection === idx ? 'border-blue-300 bg-blue-50/30' : 'border-gray-200'
+                    )}
+                    onClick={() => setActiveSection(idx)}
+                  >
+                    {canEdit ? (
+                      <Input
+                        value={section.title}
+                        onChange={(e) => updateSectionTitle(idx, e.target.value)}
+                        className="text-base font-semibold border-none shadow-none px-0 focus:ring-0 mb-3 text-gray-900"
+                        placeholder="Заголовок раздела"
+                      />
+                    ) : (
+                      <h3 className="text-base font-semibold text-gray-900 mb-3">
+                        {section.title}
+                      </h3>
+                    )}
+                    {canEdit ? (
+                      <TextArea
+                        value={section.text}
+                        onChange={(e) => updateSectionText(idx, e.target.value)}
+                        rows={6}
+                        className="resize-y"
+                        placeholder="Текст раздела..."
+                      />
+                    ) : (
+                      <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                        {section.text}
+                      </p>
+                    )}
+                  </div>
+                ))
+              )}
             </CardContent>
           </Card>
         </div>
@@ -350,6 +406,39 @@ export default function DocumentDetailPage() {
                   </Badge>
                 </div>
               </div>
+
+              {document.templateType && (
+                <div className="flex items-start gap-2">
+                  <FileText className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-500">Шаблон</p>
+                    <Badge variant="blue" className="mt-0.5">
+                      {TEMPLATE_LABELS[document.templateType as TemplateType] || document.templateType}
+                    </Badge>
+                  </div>
+                </div>
+              )}
+
+              {document.outgoingNumber && (
+                <div className="flex items-start gap-2">
+                  <Hash className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-500">Исходящий №</p>
+                    <p className="text-sm font-medium text-gray-900">{document.outgoingNumber}</p>
+                  </div>
+                </div>
+              )}
+
+              {document.addressee && (
+                <div className="flex items-start gap-2">
+                  <MapPin className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-500">Адресат</p>
+                    <p className="text-sm text-gray-900">{document.addressee.name}</p>
+                    <p className="text-xs text-gray-500">{document.addressee.title}, {document.addressee.organization}</p>
+                  </div>
+                </div>
+              )}
 
               <div className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0" />
@@ -467,7 +556,7 @@ export default function DocumentDetailPage() {
               )}
               <Button onClick={handleExportPDF} variant="outline" className="w-full" size="sm">
                 <Download className="h-4 w-4" />
-                Экспорт PDF
+                {document.templateType === 'presentation' ? 'Экспорт PPTX' : 'Экспорт PDF'}
               </Button>
             </CardContent>
           </Card>

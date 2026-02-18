@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import type {
   User,
   UserRole,
+  Company,
   Initiative,
   Stakeholder,
   Document,
@@ -14,6 +15,7 @@ import type {
 // ── Fixture imports ─────────────────────────────────────────────────────────
 
 import fixtureUsers from '@/data/users.json';
+import fixtureCompanies from '@/data/companies.json';
 import fixtureInitiatives from '@/data/initiatives.json';
 import fixtureStakeholders from '@/data/stakeholders.json';
 import fixtureDocuments from '@/data/documents.json';
@@ -53,6 +55,7 @@ interface AppState {
   currentUser: User | null;
   currentRole: UserRole;
   currentCompanyId: string | null;
+  companies: Company[];
   initiatives: Initiative[];
   stakeholders: Stakeholder[];
   documents: Document[];
@@ -65,6 +68,7 @@ interface AppState {
   logout: () => void;
   switchRole: (role: UserRole) => void;
   setCompany: (companyId: string) => void;
+  updateCompany: (id: string, updates: Partial<Company>) => void;
   addDocument: (doc: Document) => void;
   updateDocument: (id: string, updates: Partial<Document>) => void;
   addInteraction: (stakeholderId: string, interaction: Interaction) => void;
@@ -83,6 +87,7 @@ export const useStore = create<AppState>()(
       currentUser: null,
       currentRole: 'gr_manager' as UserRole,
       currentCompanyId: null,
+      companies: fixtureCompanies as unknown as Company[],
       initiatives: fixtureInitiatives as unknown as Initiative[],
       stakeholders: fixtureStakeholders as unknown as Stakeholder[],
       documents: fixtureDocuments as unknown as Document[],
@@ -118,6 +123,14 @@ export const useStore = create<AppState>()(
 
       setCompany: (companyId: string) => {
         set({ currentCompanyId: companyId });
+      },
+
+      updateCompany: (id: string, updates: Partial<Company>) => {
+        set((state) => ({
+          companies: state.companies.map((c) =>
+            c.id === id ? { ...c, ...updates } : c
+          ),
+        }));
       },
 
       addDocument: (doc: Document) => {
@@ -176,6 +189,7 @@ export const useStore = create<AppState>()(
           currentUser: null,
           currentRole: 'gr_manager' as UserRole,
           currentCompanyId: null,
+          companies: fixtureCompanies as unknown as Company[],
           initiatives: fixtureInitiatives as unknown as Initiative[],
           stakeholders: fixtureStakeholders as unknown as Stakeholder[],
           documents: fixtureDocuments as unknown as Document[],
@@ -203,6 +217,7 @@ export const useStore = create<AppState>()(
         currentUser: state.currentUser,
         currentRole: state.currentRole,
         currentCompanyId: state.currentCompanyId,
+        companies: state.companies,
         notifications: state.notifications,
         documents: state.documents,
         stakeholders: state.stakeholders,
