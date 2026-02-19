@@ -5,119 +5,109 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
-  FileText,
-  FileEdit,
+  MessageSquare,
+  Building2,
   Users,
-  Bell,
-  BarChart3,
+  Database,
   Settings,
-  Shield,
+  ScrollText,
+  Brain,
+  ShieldAlert,
+  ArrowLeft,
   ChevronLeft,
   ChevronRight,
-  LifeBuoy,
 } from 'lucide-react';
-import { SupportTicketModal } from '@/components/support/SupportTicketModal';
 import { cn } from '@/lib/utils';
 import { useStore } from '@/store/useStore';
-import { ROLE_LABELS, ROLE_PERMISSIONS, type RolePermissions } from '@/lib/types';
+import { ROLE_LABELS } from '@/lib/types';
 
 interface NavItem {
   icon: React.ElementType;
   label: string;
   href: string;
-  permissionKey: keyof RolePermissions | null;
   badge?: number;
 }
 
-export function Sidebar() {
+export function AdminSidebar() {
   const pathname = usePathname();
-  const { currentUser, currentRole, notifications } = useStore();
+  const store = useStore();
+  const currentUser = store.currentUser;
+  const currentRole = store.currentRole;
   const [collapsed, setCollapsed] = useState(false);
-  const [supportModalOpen, setSupportModalOpen] = useState(false);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const supportTickets = (store as any).supportTickets || [];
+  const openTicketCount = supportTickets.filter(
+    (t: any) => t.status === 'open' || t.status === 'in_progress'
+  ).length;
 
   const navItems: NavItem[] = [
     {
       icon: LayoutDashboard,
       label: 'Дашборд',
-      href: '/app/dashboard',
-      permissionKey: 'canViewDashboard',
+      href: '/admin/dashboard',
     },
     {
-      icon: FileText,
-      label: 'Инициативы',
-      href: '/app/initiatives',
-      permissionKey: null, // visible to all roles
+      icon: MessageSquare,
+      label: 'Тикеты поддержки',
+      href: '/admin/support',
+      badge: openTicketCount,
     },
     {
-      icon: FileEdit,
-      label: 'Документы',
-      href: '/app/documents',
-      permissionKey: null, // visible to all roles
+      icon: Building2,
+      label: 'Компании',
+      href: '/admin/companies',
     },
     {
       icon: Users,
-      label: 'Стейкхолдеры',
-      href: '/app/stakeholders',
-      permissionKey: 'canManageStakeholders',
+      label: 'Пользователи',
+      href: '/admin/users',
     },
     {
-      icon: Bell,
-      label: 'Уведомления',
-      href: '/app/notifications',
-      permissionKey: null, // visible to all roles
-      badge: unreadCount,
-    },
-    {
-      icon: BarChart3,
-      label: 'Отчёты',
-      href: '/app/reports',
-      permissionKey: 'canViewReports',
-    },
-    {
-      icon: LifeBuoy,
-      label: 'Поддержка',
-      href: '/app/support',
-      permissionKey: null,
+      icon: Database,
+      label: 'Парсеры',
+      href: '/admin/parsers',
     },
     {
       icon: Settings,
       label: 'Настройки',
-      href: '/app/settings',
-      permissionKey: 'canEditSettings',
+      href: '/admin/settings',
+    },
+    {
+      icon: ScrollText,
+      label: 'Журнал аудита',
+      href: '/admin/audit',
+    },
+    {
+      icon: Brain,
+      label: 'Использование LLM',
+      href: '/admin/llm-usage',
     },
   ];
-
-  const permissions = currentRole ? ROLE_PERMISSIONS[currentRole] : null;
-
-  const visibleItems = navItems.filter((item) => {
-    if (!item.permissionKey) return true;
-    if (!permissions) return false;
-    return permissions[item.permissionKey];
-  });
 
   return (
     <aside
       className={cn(
-        'fixed left-0 top-0 z-40 flex h-screen flex-col bg-slate-900 text-white transition-all duration-300',
+        'fixed left-0 top-0 z-40 flex h-screen flex-col bg-slate-950 text-white transition-all duration-300',
         collapsed ? 'w-16' : 'w-64'
       )}
     >
       {/* Brand */}
       <div className="flex h-16 items-center gap-3 border-b border-slate-700/50 px-4">
-        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-600">
-          <Shield className="h-4 w-4 text-white" />
+        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-orange-500">
+          <ShieldAlert className="h-4 w-4 text-white" />
         </div>
         {!collapsed && (
-          <span className="text-sm font-semibold tracking-tight text-white">GR Platform</span>
+          <span className="text-sm font-semibold tracking-tight text-white">
+            Admin Panel
+          </span>
         )}
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-        {visibleItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+        {navItems.map((item) => {
+          const isActive =
+            pathname === item.href || pathname.startsWith(item.href + '/');
           const Icon = item.icon;
 
           return (
@@ -127,7 +117,7 @@ export function Sidebar() {
               className={cn(
                 'group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                  ? 'bg-amber-600 text-white shadow-lg shadow-amber-600/20'
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               )}
               title={collapsed ? item.label : undefined}
@@ -150,6 +140,18 @@ export function Sidebar() {
           );
         })}
       </nav>
+
+      {/* Divider + Back to workspace */}
+      <div className="border-t border-slate-700/50 px-3 py-3">
+        <Link
+          href="/app/dashboard"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-400 transition-colors hover:bg-slate-800 hover:text-white"
+          title={collapsed ? 'Назад в GR Workspace' : undefined}
+        >
+          <ArrowLeft className="h-5 w-5 flex-shrink-0" />
+          {!collapsed && <span>Назад в GR Workspace</span>}
+        </Link>
+      </div>
 
       {/* User Info */}
       {currentUser && (
@@ -186,21 +188,6 @@ export function Sidebar() {
         </div>
       )}
 
-      {/* Contact Support */}
-      <div className="border-t border-slate-700/50 px-3 py-2">
-        <button
-          onClick={() => setSupportModalOpen(true)}
-          className={cn(
-            'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-slate-800 hover:text-white',
-            collapsed && 'justify-center px-0'
-          )}
-          title="Поддержка"
-        >
-          <LifeBuoy className="h-4 w-4 flex-shrink-0" />
-          {!collapsed && <span>Поддержка</span>}
-        </button>
-      </div>
-
       {/* Collapse Toggle */}
       <div className="border-t border-slate-700/50 px-3 py-2">
         <button
@@ -215,9 +202,6 @@ export function Sidebar() {
           )}
         </button>
       </div>
-
-      {/* Support Ticket Modal */}
-      <SupportTicketModal open={supportModalOpen} onClose={() => setSupportModalOpen(false)} />
     </aside>
   );
 }

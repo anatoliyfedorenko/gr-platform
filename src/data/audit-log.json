@@ -1,0 +1,202 @@
+[
+  {
+    "id": "al1",
+    "adminUserId": "u9",
+    "actionType": "parser_added",
+    "targetType": "parser",
+    "targetId": "p7",
+    "details": "Добавлен парсер 'ФСТЭК России — Документы и методические рекомендации' с расписанием каждые 4 часа",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-05T12:00:00Z"
+  },
+  {
+    "id": "al2",
+    "adminUserId": "u9",
+    "actionType": "user_created",
+    "targetType": "user",
+    "targetId": "u8",
+    "details": "Создан пользователь Федорова Ольга Дмитриевна (fedorova@digital.ru) с ролью Юрист/Комплаенс для компании c4",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-10T09:30:00Z"
+  },
+  {
+    "id": "al3",
+    "adminUserId": "u9",
+    "actionType": "company_created",
+    "targetType": "company",
+    "targetId": "c4",
+    "details": "Создана компания 'DigitalBridge' (ИНН: 7701234567), отрасль: Цифровые технологии",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-10T09:00:00Z"
+  },
+  {
+    "id": "al4",
+    "adminUserId": "u9",
+    "actionType": "settings_changed",
+    "targetType": "system_settings",
+    "targetId": "global",
+    "details": "Изменён таймаут сессии: 30 мин → 60 мин",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-15T14:00:00Z"
+  },
+  {
+    "id": "al5",
+    "adminUserId": "u9",
+    "actionType": "llm_config_changed",
+    "targetType": "llm_config",
+    "targetId": "global",
+    "details": "Обновлена основная модель: anthropic/claude-sonnet-4-5-20250929, температура: 0.3",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-18T11:00:00Z"
+  },
+  {
+    "id": "al6",
+    "adminUserId": "u9",
+    "actionType": "parser_started",
+    "targetType": "parser",
+    "targetId": "p1",
+    "details": "Запущен парсер 'Государственная Дума — Законопроекты' после планового обслуживания",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-20T08:00:00Z"
+  },
+  {
+    "id": "al7",
+    "adminUserId": "u9",
+    "actionType": "role_changed",
+    "targetType": "user",
+    "targetId": "u3",
+    "details": "Изменена роль пользователя Сидоров Дмитрий Владимирович: GR Менеджер → Руководитель",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-22T10:30:00Z"
+  },
+  {
+    "id": "al8",
+    "adminUserId": "u9",
+    "actionType": "company_updated",
+    "targetType": "company",
+    "targetId": "c1",
+    "details": "Обновлены данные компании 'ТелекомСевер': добавлены ключевые темы 'Частотное регулирование', 'Регулирование OTT'",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-01-25T16:00:00Z"
+  },
+  {
+    "id": "al9",
+    "adminUserId": "u9",
+    "actionType": "parser_stopped",
+    "targetType": "parser",
+    "targetId": "p5",
+    "details": "Остановлен парсер 'ФАС России — Решения и предписания' по запросу на оптимизацию ресурсов",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-01T09:00:00Z"
+  },
+  {
+    "id": "al10",
+    "adminUserId": "u9",
+    "actionType": "ticket_replied",
+    "targetType": "support_ticket",
+    "targetId": "st2",
+    "details": "Ответ на тикет SUP-002: инструкция по настройке уведомлений для конкретного законопроекта",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-10T15:30:00Z"
+  },
+  {
+    "id": "al11",
+    "adminUserId": "u9",
+    "actionType": "ticket_resolved",
+    "targetType": "support_ticket",
+    "targetId": "st2",
+    "details": "Тикет SUP-002 закрыт как решённый — пользователь подтвердил решение",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-11T16:00:00Z"
+  },
+  {
+    "id": "al12",
+    "adminUserId": "u9",
+    "actionType": "ticket_replied",
+    "targetType": "support_ticket",
+    "targetId": "st4",
+    "details": "Ответ на тикет SUP-004: исправлена некорректная дата в карточке законопроекта, обновлены правила парсинга",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-09T11:30:00Z"
+  },
+  {
+    "id": "al13",
+    "adminUserId": "u9",
+    "actionType": "ticket_resolved",
+    "targetType": "support_ticket",
+    "targetId": "st4",
+    "details": "Тикет SUP-004 решён — данные скорректированы, маппинг даты обновлён",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-09T11:30:00Z"
+  },
+  {
+    "id": "al14",
+    "adminUserId": "u9",
+    "actionType": "settings_changed",
+    "targetType": "system_settings",
+    "targetId": "global",
+    "details": "Включён режим обслуживания для планового обновления системы",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-12T02:00:00Z"
+  },
+  {
+    "id": "al15",
+    "adminUserId": "u9",
+    "actionType": "settings_changed",
+    "targetType": "system_settings",
+    "targetId": "global",
+    "details": "Режим обслуживания отключён, система доступна",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-12T04:00:00Z"
+  },
+  {
+    "id": "al16",
+    "adminUserId": "u9",
+    "actionType": "llm_config_changed",
+    "targetType": "llm_config",
+    "targetId": "global",
+    "details": "Увеличен лимит запросов на пользователя: 10 → 20 запросов/мин, порог оповещения о расходах: $50 → $100",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-14T10:00:00Z"
+  },
+  {
+    "id": "al17",
+    "adminUserId": "u9",
+    "actionType": "ticket_replied",
+    "targetType": "support_ticket",
+    "targetId": "st5",
+    "details": "Ответ на тикет SUP-005: разъяснение по правам доступа роли Руководитель",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-06T10:00:00Z"
+  },
+  {
+    "id": "al18",
+    "adminUserId": "u9",
+    "actionType": "ticket_resolved",
+    "targetType": "support_ticket",
+    "targetId": "st5",
+    "details": "Тикет SUP-005 закрыт — пользователь проинформирован о правах роли",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-06T10:00:00Z"
+  },
+  {
+    "id": "al19",
+    "adminUserId": "u9",
+    "actionType": "user_suspended",
+    "targetType": "user",
+    "targetId": "u7",
+    "details": "Временная блокировка пользователя Новиков Андрей Викторович — превышение лимита запросов к LLM (подозрение на автоматизированный доступ)",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-16T18:00:00Z"
+  },
+  {
+    "id": "al20",
+    "adminUserId": "u9",
+    "actionType": "parser_started",
+    "targetType": "parser",
+    "targetId": "p6",
+    "details": "Перезапущен парсер 'Роскомнадзор — Приказы' после устранения ошибки HTTP 503",
+    "ipAddress": "192.168.1.100",
+    "timestamp": "2026-02-19T09:00:00Z"
+  }
+]

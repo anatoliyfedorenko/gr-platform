@@ -1,0 +1,98 @@
+[
+  {
+    "id": "anthropic/claude-opus-4-6",
+    "name": "Claude Opus 4.6",
+    "provider": "Anthropic",
+    "contextWindow": 200000,
+    "pricePerInputToken": 0.000015,
+    "pricePerOutputToken": 0.000075
+  },
+  {
+    "id": "anthropic/claude-sonnet-4-5-20250929",
+    "name": "Claude Sonnet 4.5",
+    "provider": "Anthropic",
+    "contextWindow": 200000,
+    "pricePerInputToken": 0.000003,
+    "pricePerOutputToken": 0.000015
+  },
+  {
+    "id": "anthropic/claude-haiku-4-5-20251001",
+    "name": "Claude Haiku 4.5",
+    "provider": "Anthropic",
+    "contextWindow": 200000,
+    "pricePerInputToken": 0.0000008,
+    "pricePerOutputToken": 0.000004
+  },
+  {
+    "id": "openai/gpt-4o",
+    "name": "GPT-4o",
+    "provider": "OpenAI",
+    "contextWindow": 128000,
+    "pricePerInputToken": 0.0000025,
+    "pricePerOutputToken": 0.00001
+  },
+  {
+    "id": "openai/gpt-4o-mini",
+    "name": "GPT-4o Mini",
+    "provider": "OpenAI",
+    "contextWindow": 128000,
+    "pricePerInputToken": 0.00000015,
+    "pricePerOutputToken": 0.0000006
+  },
+  {
+    "id": "openai/o1-preview",
+    "name": "O1 Preview",
+    "provider": "OpenAI",
+    "contextWindow": 128000,
+    "pricePerInputToken": 0.000015,
+    "pricePerOutputToken": 0.00006
+  },
+  {
+    "id": "mistralai/mistral-large-latest",
+    "name": "Mistral Large",
+    "provider": "Mistral AI",
+    "contextWindow": 128000,
+    "pricePerInputToken": 0.000002,
+    "pricePerOutputToken": 0.000006
+  },
+  {
+    "id": "mistralai/mistral-small-latest",
+    "name": "Mistral Small",
+    "provider": "Mistral AI",
+    "contextWindow": 32000,
+    "pricePerInputToken": 0.0000002,
+    "pricePerOutputToken": 0.0000006
+  },
+  {
+    "id": "meta-llama/llama-3.1-70b-instruct",
+    "name": "Llama 3.1 70B Instruct",
+    "provider": "Meta",
+    "contextWindow": 131072,
+    "pricePerInputToken": 0.00000059,
+    "pricePerOutputToken": 0.00000079
+  },
+  {
+    "id": "meta-llama/llama-3.1-8b-instruct",
+    "name": "Llama 3.1 8B Instruct",
+    "provider": "Meta",
+    "contextWindow": 131072,
+    "pricePerInputToken": 0.00000006,
+    "pricePerOutputToken": 0.00000006
+  },
+  {
+    "id": "google/gemini-pro-1.5",
+    "name": "Gemini Pro 1.5",
+    "provider": "Google",
+    "contextWindow": 2000000,
+    "pricePerInputToken": 0.00000125,
+    "pricePerOutputToken": 0.000005
+  },
+  {
+    "id": "openai/text-embedding-3-small",
+    "name": "Text Embedding 3 Small",
+    "provider": "OpenAI",
+    "contextWindow": 8191,
+    "pricePerInputToken": 0.00000002,
+    "pricePerOutputToken": 0
+  }
+]

@@ -37,7 +37,9 @@ export default function LoginPage() {
       const user = users.find((u) => u.id === finalUserId);
       toast.success(`Добро пожаловать, ${user?.name || 'Пользователь'}!`);
 
-      if (user?.role === 'consultant') {
+      if (user?.role === 'admin') {
+        router.push('/admin/dashboard');
+      } else if (user?.role === 'consultant') {
         router.push('/select-workspace');
       } else {
         router.push('/app/dashboard');

@@ -10,6 +10,14 @@ import type {
   Notification,
   Interaction,
   MonitoringSettings,
+  Parser,
+  ParserRun,
+  SupportTicket,
+  SupportMessage,
+  AuditLogEntry,
+  LLMUsageLog,
+  SystemSettings,
+  LLMConfig,
 } from '@/lib/types';
 
 // ── Fixture imports ─────────────────────────────────────────────────────────
@@ -20,6 +28,12 @@ import fixtureInitiatives from '@/data/initiatives.json';
 import fixtureStakeholders from '@/data/stakeholders.json';
 import fixtureDocuments from '@/data/documents.json';
 import fixtureNotifications from '@/data/notifications.json';
+import fixtureParsers from '@/data/parsers.json';
+import fixtureParserRuns from '@/data/parser-runs.json';
+import fixtureSupportTickets from '@/data/support-tickets.json';
+import fixtureSupportMessages from '@/data/support-messages.json';
+import fixtureAuditLog from '@/data/audit-log.json';
+import fixtureLLMUsage from '@/data/llm-usage.json';
 
 // ── Default settings ────────────────────────────────────────────────────────
 
@@ -48,6 +62,34 @@ const defaultSettings: MonitoringSettings = {
   autoReportFrequency: 'weekly',
 };
 
+const defaultSystemSettings: SystemSettings = {
+  platformName: 'GR Intelligence Platform',
+  language: 'ru',
+  dateFormat: 'DD.MM.YYYY',
+  currency: 'RUB',
+  sessionTimeout: 60,
+  maxLoginAttempts: 5,
+  maintenanceMode: false,
+  defaultTopics: ['Регулирование OTT', 'Цифровое неравенство', 'Частотное регулирование'],
+  defaultRegions: ['Федеральный', 'Москва'],
+  defaultSources: ['Государственная Дума', 'Минцифры России'],
+};
+
+const defaultLLMConfig: LLMConfig = {
+  provider: 'openrouter',
+  apiKey: 'sk-or-v1-****',
+  primaryModel: 'anthropic/claude-sonnet-4-5-20250929',
+  fastModel: 'anthropic/claude-haiku-4-5-20251001',
+  embeddingModel: 'openai/text-embedding-3-small',
+  masterPrompt:
+    'Вы — эксперт по Government Relations и анализу регуляторной среды в Российской Федерации. Ваша задача — помогать GR-специалистам анализировать законодательные инициативы, оценивать регуляторные риски и формировать аналитические документы. При ответах опирайтесь на актуальную нормативно-правовую базу, учитывайте отраслевую специфику клиента и предоставляйте структурированные, обоснованные выводы с указанием конкретных правовых норм.',
+  temperature: 0.3,
+  maxTokens: 4096,
+  rateLimitPerUser: 20,
+  rateLimitGlobal: 200,
+  costAlertThreshold: 100,
+};
+
 // ── Store interface ─────────────────────────────────────────────────────────
 
 interface AppState {
@@ -55,6 +97,7 @@ interface AppState {
   currentUser: User | null;
   currentRole: UserRole;
   currentCompanyId: string | null;
+  users: User[];
   companies: Company[];
   initiatives: Initiative[];
   stakeholders: Stakeholder[];
@@ -62,6 +105,16 @@ interface AppState {
   notifications: Notification[];
   settings: MonitoringSettings;
   isLoading: boolean;
+
+  // Admin data
+  parsers: Parser[];
+  parserRuns: ParserRun[];
+  supportTickets: SupportTicket[];
+  supportMessages: SupportMessage[];
+  auditLog: AuditLogEntry[];
+  llmUsage: LLMUsageLog[];
+  systemSettings: SystemSettings;
+  llmConfig: LLMConfig;
 
   // Actions
   login: (userId: string) => void;
@@ -76,6 +129,19 @@ interface AppState {
   markAllNotificationsRead: () => void;
   updateSettings: (settings: Partial<MonitoringSettings>) => void;
   resetDemoData: () => void;
+
+  // Admin actions
+  addParser: (parser: Parser) => void;
+  updateParser: (id: string, updates: Partial<Parser>) => void;
+  deleteParser: (id: string) => void;
+  addSupportTicket: (ticket: SupportTicket) => void;
+  updateSupportTicket: (id: string, updates: Partial<SupportTicket>) => void;
+  addSupportMessage: (message: SupportMessage) => void;
+  addAuditLogEntry: (entry: AuditLogEntry) => void;
+  updateSystemSettings: (settings: Partial<SystemSettings>) => void;
+  updateLLMConfig: (config: Partial<LLMConfig>) => void;
+  addCompany: (company: Company) => void;
+  addUser: (user: User) => void;
 }
 
 // ── Store creation ──────────────────────────────────────────────────────────
@@ -87,6 +153,7 @@ export const useStore = create<AppState>()(
       currentUser: null,
       currentRole: 'gr_manager' as UserRole,
       currentCompanyId: null,
+      users: fixtureUsers as unknown as User[],
       companies: fixtureCompanies as unknown as Company[],
       initiatives: fixtureInitiatives as unknown as Initiative[],
       stakeholders: fixtureStakeholders as unknown as Stakeholder[],
@@ -95,18 +162,30 @@ export const useStore = create<AppState>()(
       settings: defaultSettings,
       isLoading: false,
 
+      // Admin initial state
+      parsers: fixtureParsers as unknown as Parser[],
+      parserRuns: fixtureParserRuns as unknown as ParserRun[],
+      supportTickets: fixtureSupportTickets as unknown as SupportTicket[],
+      supportMessages: fixtureSupportMessages as unknown as SupportMessage[],
+      auditLog: fixtureAuditLog as unknown as AuditLogEntry[],
+      llmUsage: fixtureLLMUsage as unknown as LLMUsageLog[],
+      systemSettings: defaultSystemSettings,
+      llmConfig: defaultLLMConfig,
+
       // ── Actions ─────────────────────────────────────────────────────────
 
       login: (userId: string) => {
-        const users = fixtureUsers as User[];
-        const user = users.find((u) => u.id === userId) ?? null;
-        if (user) {
-          set({
-            currentUser: user,
-            currentRole: user.role,
-            currentCompanyId: user.companyId,
-          });
-        }
+        set((state) => {
+          const user = state.users.find((u) => u.id === userId) ?? null;
+          if (user) {
+            return {
+              currentUser: user,
+              currentRole: user.role,
+              currentCompanyId: user.companyId,
+            };
+          }
+          return {};
+        });
       },
 
       logout: () => {
@@ -189,6 +268,7 @@ export const useStore = create<AppState>()(
           currentUser: null,
           currentRole: 'gr_manager' as UserRole,
           currentCompanyId: null,
+          users: fixtureUsers as unknown as User[],
           companies: fixtureCompanies as unknown as Company[],
           initiatives: fixtureInitiatives as unknown as Initiative[],
           stakeholders: fixtureStakeholders as unknown as Stakeholder[],
@@ -196,7 +276,87 @@ export const useStore = create<AppState>()(
           notifications: fixtureNotifications as unknown as Notification[],
           settings: defaultSettings,
           isLoading: false,
+          parsers: fixtureParsers as unknown as Parser[],
+          parserRuns: fixtureParserRuns as unknown as ParserRun[],
+          supportTickets: fixtureSupportTickets as unknown as SupportTicket[],
+          supportMessages: fixtureSupportMessages as unknown as SupportMessage[],
+          auditLog: fixtureAuditLog as unknown as AuditLogEntry[],
+          llmUsage: fixtureLLMUsage as unknown as LLMUsageLog[],
+          systemSettings: defaultSystemSettings,
+          llmConfig: defaultLLMConfig,
         });
+      },
+
+      // ── Admin Actions ─────────────────────────────────────────────────
+
+      addParser: (parser: Parser) => {
+        set((state) => ({
+          parsers: [...state.parsers, parser],
+        }));
+      },
+
+      updateParser: (id: string, updates: Partial<Parser>) => {
+        set((state) => ({
+          parsers: state.parsers.map((p) =>
+            p.id === id ? { ...p, ...updates } : p
+          ),
+        }));
+      },
+
+      deleteParser: (id: string) => {
+        set((state) => ({
+          parsers: state.parsers.filter((p) => p.id !== id),
+        }));
+      },
+
+      addSupportTicket: (ticket: SupportTicket) => {
+        set((state) => ({
+          supportTickets: [...state.supportTickets, ticket],
+        }));
+      },
+
+      updateSupportTicket: (id: string, updates: Partial<SupportTicket>) => {
+        set((state) => ({
+          supportTickets: state.supportTickets.map((t) =>
+            t.id === id ? { ...t, ...updates } : t
+          ),
+        }));
+      },
+
+      addSupportMessage: (message: SupportMessage) => {
+        set((state) => ({
+          supportMessages: [...state.supportMessages, message],
+        }));
+      },
+
+      addAuditLogEntry: (entry: AuditLogEntry) => {
+        set((state) => ({
+          auditLog: [entry, ...state.auditLog],
+        }));
+      },
+
+      updateSystemSettings: (settings: Partial<SystemSettings>) => {
+        set((state) => ({
+          systemSettings: { ...state.systemSettings, ...settings },
+        }));
+      },
+
+      updateLLMConfig: (config: Partial<LLMConfig>) => {
+        set((state) => ({
+          llmConfig: { ...state.llmConfig, ...config },
+        }));
+      },
+
+      addCompany: (company: Company) => {
+        set((state) => ({
+          companies: [...state.companies, company],
+        }));
+      },
+
+      addUser: (user: User) => {
+        set((state) => ({
+          users: [...state.users, user],
+        }));
       },
     }),
     {
@@ -217,11 +377,20 @@ export const useStore = create<AppState>()(
         currentUser: state.currentUser,
         currentRole: state.currentRole,
         currentCompanyId: state.currentCompanyId,
+        users: state.users,
         companies: state.companies,
         notifications: state.notifications,
         documents: state.documents,
         stakeholders: state.stakeholders,
         settings: state.settings,
+        parsers: state.parsers,
+        parserRuns: state.parserRuns,
+        supportTickets: state.supportTickets,
+        supportMessages: state.supportMessages,
+        auditLog: state.auditLog,
+        llmUsage: state.llmUsage,
+        systemSettings: state.systemSettings,
+        llmConfig: state.llmConfig,
       }),
     }
   )

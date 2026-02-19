@@ -1,0 +1,278 @@
+[
+  {
+    "id": "sm1",
+    "ticketId": "st1",
+    "authorId": "u1",
+    "authorRole": "user",
+    "text": "При экспорте аналитической записки в DOCX получаю ошибку 500. Прикладываю скриншот. Проблема воспроизводится стабильно при каждой попытке экспорта.",
+    "isInternal": false,
+    "attachments": [
+      {
+        "id": "att1",
+        "filename": "error-screenshot.png",
+        "fileSize": 245780,
+        "mimeType": "image/png",
+        "url": "/uploads/att1/error-screenshot.png",
+        "thumbnailUrl": "/uploads/att1/error-screenshot-thumb.png"
+      }
+    ],
+    "createdAt": "2026-02-15T09:30:00Z"
+  },
+  {
+    "id": "sm2",
+    "ticketId": "st1",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Спасибо за обращение. Мы воспроизвели проблему. Ошибка связана с некорректной обработкой кириллических символов в шаблоне DOCX. Уже работаем над исправлением.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-15T14:20:00Z"
+  },
+  {
+    "id": "sm3",
+    "ticketId": "st1",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Проверил логи — проблема в библиотеке docx-templater при обработке Unicode-символов в поле addressee. Нужно обновить зависимость до версии 3.48+.",
+    "isInternal": true,
+    "attachments": [],
+    "createdAt": "2026-02-15T15:00:00Z"
+  },
+  {
+    "id": "sm4",
+    "ticketId": "st1",
+    "authorId": "u1",
+    "authorRole": "user",
+    "text": "Понял, спасибо за оперативный ответ. Когда примерно ожидать исправление? У нас дедлайн по отправке документа 20 февраля.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-16T09:00:00Z"
+  },
+  {
+    "id": "sm5",
+    "ticketId": "st1",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Исправление будет развёрнуто сегодня вечером. Временное решение: можно экспортировать в PDF, а затем сконвертировать в DOCX через внешний инструмент.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-17T14:20:00Z"
+  },
+  {
+    "id": "sm6",
+    "ticketId": "st2",
+    "authorId": "u2",
+    "authorRole": "user",
+    "text": "Подскажите, как настроить уведомления для конкретного законопроекта? В настройках мониторинга вижу только общие темы.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-10T11:00:00Z"
+  },
+  {
+    "id": "sm7",
+    "ticketId": "st2",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Для отслеживания конкретного законопроекта откройте его карточку, нажмите иконку колокольчика в правом верхнем углу карточки и выберите 'Отслеживать изменения'. Уведомления будут приходить на вашу почту при любых изменениях статуса или содержания.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-10T15:30:00Z"
+  },
+  {
+    "id": "sm8",
+    "ticketId": "st2",
+    "authorId": "u2",
+    "authorRole": "user",
+    "text": "Отлично, нашла эту функцию! Спасибо за помощь.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-11T16:00:00Z"
+  },
+  {
+    "id": "sm9",
+    "ticketId": "st4",
+    "authorId": "u1",
+    "authorRole": "user",
+    "text": "В карточке законопроекта №156-ФЗ указана неверная дата внесения. Прикладываю скриншот с сайта СОЗД для сравнения.",
+    "isInternal": false,
+    "attachments": [
+      {
+        "id": "att2",
+        "filename": "sozd-screenshot.png",
+        "fileSize": 312450,
+        "mimeType": "image/png",
+        "url": "/uploads/att2/sozd-screenshot.png",
+        "thumbnailUrl": "/uploads/att2/sozd-screenshot-thumb.png"
+      }
+    ],
+    "createdAt": "2026-02-08T10:15:00Z"
+  },
+  {
+    "id": "sm10",
+    "ticketId": "st4",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Парсер СОЗД некорректно обработал формат даты на этой странице. Ошибка в маппинге dateSelector — он захватывал дату создания страницы, а не дату внесения законопроекта.",
+    "isInternal": true,
+    "attachments": [],
+    "createdAt": "2026-02-08T16:00:00Z"
+  },
+  {
+    "id": "sm11",
+    "ticketId": "st4",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Спасибо за сигнал! Мы исправили данные и обновили правило парсинга. Дата теперь отображается корректно — 15.03.2025. Пожалуйста, проверьте.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-09T11:30:00Z"
+  },
+  {
+    "id": "sm12",
+    "ticketId": "st5",
+    "authorId": "u3",
+    "authorRole": "user",
+    "text": "Не могу создавать документы. Раньше такая возможность была. Что-то изменилось?",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-05T08:45:00Z"
+  },
+  {
+    "id": "sm13",
+    "ticketId": "st5",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Роль 'Руководитель' имеет ограниченные права — просмотр дашборда, отчётов и экспорт. Создание и редактирование документов доступно ролям GR Менеджер и Юрист. Если вам необходим расширенный доступ, обратитесь к администратору вашей компании для изменения роли.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-06T10:00:00Z"
+  },
+  {
+    "id": "sm14",
+    "ticketId": "st6",
+    "authorId": "u5",
+    "authorRole": "user",
+    "text": "Дашборд не загружается с утра. Бесконечный спиннер. Прикладываю логи из консоли разработчика.",
+    "isInternal": false,
+    "attachments": [
+      {
+        "id": "att3",
+        "filename": "console-errors.txt",
+        "fileSize": 8420,
+        "mimeType": "text/plain",
+        "url": "/uploads/att3/console-errors.txt"
+      }
+    ],
+    "createdAt": "2026-02-18T07:30:00Z"
+  },
+  {
+    "id": "sm15",
+    "ticketId": "st6",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Из логов видно, что проблема связана с таймаутом API при загрузке виджета инициатив. У компании c3 накопилось более 500 отслеживаемых инициатив — нужна пагинация.",
+    "isInternal": true,
+    "attachments": [],
+    "createdAt": "2026-02-18T10:00:00Z"
+  },
+  {
+    "id": "sm16",
+    "ticketId": "st6",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Мы выявили проблему — таймаут при загрузке большого количества инициатив на дашборд. Временное решение применено, дашборд должен загружаться. Пожалуйста, попробуйте обновить страницу.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-18T15:00:00Z"
+  },
+  {
+    "id": "sm17",
+    "ticketId": "st6",
+    "authorId": "u5",
+    "authorRole": "user",
+    "text": "Дашборд загрузился, спасибо! Но работает заметно медленнее, чем раньше. Это временное явление?",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-18T16:30:00Z"
+  },
+  {
+    "id": "sm18",
+    "ticketId": "st8",
+    "authorId": "u2",
+    "authorRole": "user",
+    "text": "В системе отсутствуют несколько нормативных актов Минцифры за январь. Приказы №12 и №15 не отображаются.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-16T13:00:00Z"
+  },
+  {
+    "id": "sm19",
+    "ticketId": "st8",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Проверяю логи парсера Минцифры за январь. Похоже, что RSS-лента не содержала эти документы — они были опубликованы только на основном сайте вне раздела нормативных актов.",
+    "isInternal": true,
+    "attachments": [],
+    "createdAt": "2026-02-16T17:00:00Z"
+  },
+  {
+    "id": "sm20",
+    "ticketId": "st8",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Спасибо за сигнал. Мы обнаружили, что указанные приказы были опубликованы в другом разделе сайта Минцифры. Расширяем охват парсера для включения этого раздела. Данные будут добавлены в течение 24 часов.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-17T09:00:00Z"
+  },
+  {
+    "id": "sm21",
+    "ticketId": "st3",
+    "authorId": "u4",
+    "authorRole": "user",
+    "text": "Прошу рассмотреть возможность добавления diff-просмотра для сравнения версий законопроектов. Это значительно ускорит работу аналитиков.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-12T14:00:00Z"
+  },
+  {
+    "id": "sm22",
+    "ticketId": "st9",
+    "authorId": "u5",
+    "authorRole": "user",
+    "text": "Нам нужно добавить 3 новых пользователей. Прошу уточнить процедуру расширения лицензии.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-17T10:00:00Z"
+  },
+  {
+    "id": "sm23",
+    "ticketId": "st7",
+    "authorId": "u4",
+    "authorRole": "user",
+    "text": "Просим рассмотреть интеграцию с Telegram-ботом. Многие сотрудники предпочитают получать уведомления через мессенджер.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-14T16:30:00Z"
+  },
+  {
+    "id": "sm24",
+    "ticketId": "st10",
+    "authorId": "u1",
+    "authorRole": "user",
+    "text": "Поиск по стейкхолдерам не работает с кириллицей. При вводе 'Иванов' ничего не находит, хотя такой контакт есть в базе.",
+    "isInternal": false,
+    "attachments": [],
+    "createdAt": "2026-02-19T08:00:00Z"
+  },
+  {
+    "id": "sm25",
+    "ticketId": "st10",
+    "authorId": "u9",
+    "authorRole": "admin",
+    "text": "Похоже на проблему с нормализацией Unicode при поиске. Нужно проверить, используется ли NFC-нормализация перед сравнением строк.",
+    "isInternal": true,
+    "attachments": [],
+    "createdAt": "2026-02-19T09:30:00Z"
+  }
+]
