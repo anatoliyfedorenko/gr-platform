@@ -155,8 +155,26 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {/* Developed by Mad Devs */}
+        <div className="mt-8 flex flex-col items-center gap-2">
+          <p className="text-xs text-gray-400">Разработано</p>
+          <a
+            href="https://www.maddevs.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 rounded-lg border border-gray-200 bg-white px-4 py-2.5 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
+          >
+            <img
+              src="/md_logo.png"
+              alt="Mad Devs"
+              className="h-8 w-auto"
+            />
+            <span className="text-sm font-semibold text-gray-700">Mad Devs</span>
+          </a>
+        </div>
+
         {/* Footer */}
-        <p className="mt-6 text-center text-xs text-gray-400">
+        <p className="mt-4 text-center text-xs text-gray-400">
           &copy; 2026 GR Intelligence Platform. Все права защищены.
         </p>
       </div>
