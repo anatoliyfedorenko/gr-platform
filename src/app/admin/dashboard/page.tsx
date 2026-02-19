@@ -142,7 +142,7 @@ export default function AdminDashboardPage() {
       <h1 className="text-2xl font-bold text-gray-900">Панель администратора</h1>
 
       {/* KPI Cards — 7 cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title="Компании"
           value={companies.length}

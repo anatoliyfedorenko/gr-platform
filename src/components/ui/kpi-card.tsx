@@ -45,19 +45,19 @@ const KPICard: React.FC<KPICardProps> = ({
   return (
     <div
       className={cn(
-        "rounded-lg border border-gray-200 bg-white p-6 shadow-sm",
+        "rounded-lg border border-gray-200 bg-white px-4 py-3 shadow-sm",
         className
       )}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-500 truncate">{title}</p>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900">
+          <p className="text-sm font-medium text-gray-500">{title}</p>
+          <p className="mt-1 text-2xl font-bold tracking-tight text-gray-900">
             {value}
           </p>
 
           {(change || trend) && (
-            <div className="mt-2 flex items-center gap-1.5">
+            <div className="mt-1 flex items-center gap-1.5">
               {TrendIcon && (
                 <span
                   className={cn(
