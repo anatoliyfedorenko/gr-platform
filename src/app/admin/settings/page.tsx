@@ -37,7 +37,7 @@ const DATE_FORMAT_OPTIONS = [
 ];
 
 const CURRENCY_OPTIONS = [
-  { value: 'RUB', label: 'RUB (\u20BD)' },
+  { value: 'KGS', label: 'KGS (сом)' },
   { value: 'USD', label: 'USD ($)' },
   { value: 'EUR', label: 'EUR (\u20AC)' },
 ];
@@ -72,17 +72,17 @@ const EXPORT_FORMAT_OPTIONS = [
   { value: 'docx', label: 'DOCX' },
 ];
 
-const DEFAULT_SYSTEM_PROMPT = `Вы — ассистент GR Intelligence Platform, специализирующийся на анализе государственного регулирования (GR) в Российской Федерации.
+const DEFAULT_SYSTEM_PROMPT = `Вы — ассистент GR Intelligence Platform, специализирующийся на анализе государственного регулирования (GR) в Кыргызской Республике, с фокусом на IT-сектор и Парк высоких технологий (ПВТ).
 
 Ваши задачи:
-1. Анализ законодательных инициатив и нормативных актов
-2. Оценка рисков для бизнеса
+1. Анализ законодательных инициатив и нормативных актов КР
+2. Оценка рисков для IT-бизнеса и резидентов ПВТ
 3. Подготовка аналитических справок и рекомендаций
-4. Мониторинг изменений в регуляторной среде
+4. Мониторинг изменений в регуляторной среде (Закон о ПВТ, Цифровой кодекс, защита данных)
 
 При ответе:
 - Используйте официальный деловой стиль
-- Ссылайтесь на конкретные нормативные акты
+- Ссылайтесь на конкретные нормативные акты КР
 - Давайте практические рекомендации
 - Оценивайте потенциальные риски по шкале: низкий / средний / высокий`;
 
@@ -101,13 +101,13 @@ export default function AdminSettingsPage() {
   const [platformName, setPlatformName] = useState(systemSettings.platformName || 'GR Intelligence Platform');
   const [language, setLanguage] = useState(systemSettings.language || 'ru');
   const [dateFormat, setDateFormat] = useState(systemSettings.dateFormat || 'DD.MM.YYYY');
-  const [currency, setCurrency] = useState(systemSettings.currency || 'RUB');
+  const [currency, setCurrency] = useState(systemSettings.currency || 'KGS');
   const [sessionTimeout, setSessionTimeout] = useState(systemSettings.sessionTimeout?.toString() || '30');
   const [maxLoginAttempts, setMaxLoginAttempts] = useState(systemSettings.maxLoginAttempts?.toString() || '5');
   const [maintenanceMode, setMaintenanceMode] = useState(systemSettings.maintenanceMode || false);
-  const [defaultTopics, setDefaultTopics] = useState(systemSettings.defaultTopics || '5G, Частоты, Персональные данные, Кибербезопасность');
-  const [defaultRegions, setDefaultRegions] = useState(systemSettings.defaultRegions || 'Федеральный, Москва, Санкт-Петербург');
-  const [defaultSources, setDefaultSources] = useState(systemSettings.defaultSources || 'Государственная Дума, Минцифры, Правительство РФ');
+  const [defaultTopics, setDefaultTopics] = useState(systemSettings.defaultTopics || 'Регулирование ПВТ, Цифровой кодекс, Защита данных, Кибербезопасность');
+  const [defaultRegions, setDefaultRegions] = useState(systemSettings.defaultRegions || 'Республиканский, Бишкек, Ошская область');
+  const [defaultSources, setDefaultSources] = useState(systemSettings.defaultSources || 'Жогорку Кенеш, Минцифры КР, Кабинет Министров КР');
 
   // ---- LLM Configuration ----
   const llmConfig = storeState.llmConfig || {};

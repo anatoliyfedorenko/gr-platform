@@ -121,7 +121,7 @@ export default function AdminParsersNewPage() {
                 <Input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Например: Госдума RSS"
+                  placeholder="Например: Жогорку Кенеш RSS"
                 />
               </div>
               <div>

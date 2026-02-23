@@ -43,12 +43,12 @@ const STATUS_REVERSE_MAP: Record<string, string[]> = {
 };
 
 const TOPIC_OPTIONS = [
-  "5G",
-  "Частоты",
-  "Персональные данные",
-  "Тарифы",
-  "Инфраструктура",
+  "Регулирование ПВТ",
+  "Цифровой кодекс",
+  "Защита данных",
+  "Налоговые преференции",
   "Кибербезопасность",
+  "Телекоммуникации",
 ];
 
 const STATUS_OPTIONS = [
@@ -68,8 +68,8 @@ const RISK_OPTIONS = [
 
 const REGION_OPTIONS = [
   { value: "", label: "Все регионы" },
-  { value: "Федеральный", label: "Федеральный" },
-  { value: "Региональный", label: "Региональный" },
+  { value: "Республиканский", label: "Республиканский" },
+  { value: "Бишкек", label: "Бишкек" },
 ];
 
 const SORT_OPTIONS = [

@@ -389,7 +389,7 @@ export interface SystemSettings {
   platformName: string;
   language: 'ru' | 'en';
   dateFormat: 'DD.MM.YYYY' | 'YYYY-MM-DD' | 'MM/DD/YYYY';
-  currency: 'RUB' | 'USD' | 'EUR';
+  currency: 'KGS' | 'USD' | 'EUR';
   sessionTimeout: number;
   maxLoginAttempts: number;
   maintenanceMode: boolean;

@@ -69,29 +69,29 @@ interface ActivityItem {
 }
 
 const ACTIVITY_FEED: ActivityItem[] = [
-  { id: 1, type: 'user_registered', badgeVariant: 'blue', icon: UserPlus, description: 'Новый пользователь зарегистрирован: Иванов А.С. (ООО "ТелекомПро")', timestamp: '2026-02-19 14:32' },
-  { id: 2, type: 'company_onboarded', badgeVariant: 'green', icon: Briefcase, description: 'Компания "МедиаГрупп" завершила онбординг', timestamp: '2026-02-19 13:15' },
-  { id: 3, type: 'document_generated', badgeVariant: 'purple', icon: FileDown, description: 'Сгенерирован документ: Аналитическая записка по регулированию OTT', timestamp: '2026-02-19 12:45' },
-  { id: 4, type: 'parser_error', badgeVariant: 'red', icon: AlertTriangle, description: 'Ошибка парсера: ФАС России — таймаут подключения', timestamp: '2026-02-19 11:20' },
+  { id: 1, type: 'user_registered', badgeVariant: 'blue', icon: UserPlus, description: 'Новый пользователь зарегистрирован: Ташматов Д.Э. (ОсОО "Unique Technologies")', timestamp: '2026-02-19 14:32' },
+  { id: 2, type: 'company_onboarded', badgeVariant: 'green', icon: Briefcase, description: 'Компания "Codify" завершила онбординг', timestamp: '2026-02-19 13:15' },
+  { id: 3, type: 'document_generated', badgeVariant: 'purple', icon: FileDown, description: 'Сгенерирован документ: Аналитическая записка по Цифровому кодексу КР', timestamp: '2026-02-19 12:45' },
+  { id: 4, type: 'parser_error', badgeVariant: 'red', icon: AlertTriangle, description: 'Ошибка парсера: СРРС КР — таймаут подключения', timestamp: '2026-02-19 11:20' },
   { id: 5, type: 'settings_changed', badgeVariant: 'yellow', icon: Settings, description: 'Администратор изменил глобальные настройки мониторинга', timestamp: '2026-02-19 10:55' },
-  { id: 6, type: 'ticket_submitted', badgeVariant: 'orange', icon: MessageSquare, description: 'Новый тикет поддержки от Петрова М.К.: "Не работает экспорт PDF"', timestamp: '2026-02-19 10:30' },
+  { id: 6, type: 'ticket_submitted', badgeVariant: 'orange', icon: MessageSquare, description: 'Новый тикет поддержки от Касымовой А.Т.: "Не работает экспорт PDF"', timestamp: '2026-02-19 10:30' },
   { id: 7, type: 'ticket_resolved', badgeVariant: 'green', icon: TicketCheck, description: 'Тикет #42 решён: "Ошибка авторизации при смене роли"', timestamp: '2026-02-19 09:45' },
-  { id: 8, type: 'document_generated', badgeVariant: 'purple', icon: FileDown, description: 'Сгенерирован документ: Официальное письмо в Минцифры России', timestamp: '2026-02-18 18:20' },
-  { id: 9, type: 'user_registered', badgeVariant: 'blue', icon: UserPlus, description: 'Новый пользователь зарегистрирован: Сидорова Е.В. (ПАО "Связьинвест")', timestamp: '2026-02-18 16:40' },
-  { id: 10, type: 'parser_error', badgeVariant: 'red', icon: AlertTriangle, description: 'Ошибка парсера: Роскомнадзор — изменена структура HTML', timestamp: '2026-02-18 15:10' },
-  { id: 11, type: 'company_onboarded', badgeVariant: 'green', icon: Briefcase, description: 'Компания "ЦифраТех" завершила онбординг', timestamp: '2026-02-18 14:00' },
+  { id: 8, type: 'document_generated', badgeVariant: 'purple', icon: FileDown, description: 'Сгенерирован документ: Официальное письмо в Минцифры КР', timestamp: '2026-02-18 18:20' },
+  { id: 9, type: 'user_registered', badgeVariant: 'blue', icon: UserPlus, description: 'Новый пользователь зарегистрирован: Осмонова Н.А. (ОсОО "OpenCBS")', timestamp: '2026-02-18 16:40' },
+  { id: 10, type: 'parser_error', badgeVariant: 'red', icon: AlertTriangle, description: 'Ошибка парсера: Гос. агентство защиты данных КР — изменена структура HTML', timestamp: '2026-02-18 15:10' },
+  { id: 11, type: 'company_onboarded', badgeVariant: 'green', icon: Briefcase, description: 'Компания "NineNineSix" завершила онбординг', timestamp: '2026-02-18 14:00' },
   { id: 12, type: 'settings_changed', badgeVariant: 'yellow', icon: Settings, description: 'Изменены настройки LLM: обновлён провайдер по умолчанию', timestamp: '2026-02-18 11:30' },
-  { id: 13, type: 'ticket_submitted', badgeVariant: 'orange', icon: MessageSquare, description: 'Новый тикет поддержки от Козлова Д.А.: "Не обновляются инициативы"', timestamp: '2026-02-18 10:15' },
+  { id: 13, type: 'ticket_submitted', badgeVariant: 'orange', icon: MessageSquare, description: 'Новый тикет поддержки от Бекболотова А.Ж.: "Не обновляются инициативы"', timestamp: '2026-02-18 10:15' },
   { id: 14, type: 'document_generated', badgeVariant: 'purple', icon: FileDown, description: 'Сгенерирован документ: Отчёт GR за январь 2026', timestamp: '2026-02-17 17:50' },
-  { id: 15, type: 'user_registered', badgeVariant: 'blue', icon: UserPlus, description: 'Новый пользователь зарегистрирован: Морозов К.Л. (ООО "ИнфоСервис")', timestamp: '2026-02-17 14:25' },
+  { id: 15, type: 'user_registered', badgeVariant: 'blue', icon: UserPlus, description: 'Новый пользователь зарегистрирован: Кадыров Т.М. (ОсОО "Namba One")', timestamp: '2026-02-17 14:25' },
 ];
 
 const ALERTS = [
-  { id: 1, severity: 'red' as const, message: 'Парсер "ФАС России" не работает более 2 часов' },
+  { id: 1, severity: 'red' as const, message: 'Парсер "СРРС КР" не работает более 2 часов' },
   { id: 2, severity: 'red' as const, message: '3 тикета поддержки без ответа > 24ч' },
   { id: 3, severity: 'yellow' as const, message: 'Использование LLM превысило 80% месячного лимита' },
-  { id: 4, severity: 'yellow' as const, message: 'Парсер "Роскомнадзор" — частые ошибки (5 за последние сутки)' },
-  { id: 5, severity: 'red' as const, message: 'Компания "ТелекомПро" — истекает срок подписки через 3 дня' },
+  { id: 4, severity: 'yellow' as const, message: 'Парсер "Гос. агентство защиты данных КР" — частые ошибки (5 за последние сутки)' },
+  { id: 5, severity: 'red' as const, message: 'Компания "Codify" — истекает срок подписки через 3 дня' },
 ];
 
 const TYPE_LABELS: Record<string, string> = {

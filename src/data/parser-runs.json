@@ -69,7 +69,7 @@
     "recordsNew": 6,
     "recordsUpdated": 10,
     "recordsSkipped": 18,
-    "errorMessage": "6 записей пропущены: невалидный формат даты"
+    "errorMessage": "6 записей пропущены: невалидный формат даты на сайте cbd.minjust.gov.kg"
   },
   {
     "id": "pr7",
@@ -141,7 +141,7 @@
     "recordsNew": 5,
     "recordsUpdated": 8,
     "recordsSkipped": 12,
-    "errorMessage": "5 записей пропущены: дубликаты по URL не обработаны"
+    "errorMessage": "5 записей пропущены: дубликаты по URL на gov.kg не обработаны"
   },
   {
     "id": "pr13",
@@ -177,7 +177,7 @@
     "recordsNew": 0,
     "recordsUpdated": 0,
     "recordsSkipped": 0,
-    "errorMessage": "HTTP 503: Service Temporarily Unavailable — сервер Роскомнадзора недоступен"
+    "errorMessage": "HTTP 503: Service Temporarily Unavailable — сервер СРРС недоступен"
   },
   {
     "id": "pr16",
@@ -219,13 +219,13 @@
     "id": "pr19",
     "parserId": "p7",
     "startedAt": "2026-02-19T04:00:00Z",
-    "completedAt": null,
-    "status": "failed",
-    "recordsFound": 0,
-    "recordsNew": 0,
-    "recordsUpdated": 0,
-    "recordsSkipped": 0,
-    "errorMessage": "Timeout after 30s — страница не отвечает, возможно изменилась структура HTML"
+    "completedAt": "2026-02-19T04:00:45Z",
+    "status": "success",
+    "recordsFound": 8,
+    "recordsNew": 2,
+    "recordsUpdated": 3,
+    "recordsSkipped": 3,
+    "errorMessage": null
   },
   {
     "id": "pr20",
@@ -237,7 +237,7 @@
     "recordsNew": 1,
     "recordsUpdated": 2,
     "recordsSkipped": 3,
-    "errorMessage": "2 записи пропущены: не удалось извлечь заголовок"
+    "errorMessage": "2 записи пропущены: не удалось извлечь заголовок с сайта htp.kg"
   },
   {
     "id": "pr21",

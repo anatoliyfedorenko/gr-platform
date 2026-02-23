@@ -27,13 +27,13 @@ const INDUSTRY_OPTIONS = [
 
 const REGION_OPTIONS = [
   { value: '', label: 'Выберите регион' },
-  { value: 'Москва', label: 'Москва' },
-  { value: 'Санкт-Петербург', label: 'Санкт-Петербург' },
-  { value: 'Новосибирск', label: 'Новосибирск' },
-  { value: 'Екатеринбург', label: 'Екатеринбург' },
-  { value: 'Краснодар', label: 'Краснодар' },
-  { value: 'Казань', label: 'Казань' },
-  { value: 'Нижний Новгород', label: 'Нижний Новгород' },
+  { value: 'Бишкек', label: 'Бишкек' },
+  { value: 'Ош', label: 'Ош' },
+  { value: 'Джалал-Абад', label: 'Джалал-Абад' },
+  { value: 'Каракол', label: 'Каракол' },
+  { value: 'Токмок', label: 'Токмок' },
+  { value: 'Нарын', label: 'Нарын' },
+  { value: 'Баткен', label: 'Баткен' },
 ];
 
 export default function AdminCreateCompanyPage() {

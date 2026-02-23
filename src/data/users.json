@@ -1,64 +1,64 @@
 [
   {
     "id": "u1",
-    "name": "Иванов Алексей Петрович",
-    "email": "ivanov@telecomsever.ru",
+    "name": "Жумагулов Нурлан Бакытович",
+    "email": "jumagulov@maddevs.kg",
     "role": "gr_manager",
     "companyId": "c1",
     "avatar": null
   },
   {
     "id": "u2",
-    "name": "Петрова Мария Сергеевна",
-    "email": "petrova@telecomsever.ru",
+    "name": "Касымова Айжан Талантовна",
+    "email": "kasymova@maddevs.kg",
     "role": "lawyer",
     "companyId": "c1",
     "avatar": null
   },
   {
     "id": "u3",
-    "name": "Сидоров Дмитрий Владимирович",
-    "email": "sidorov@telecomsever.ru",
+    "name": "Клименко Алла Валерьевна",
+    "email": "klimenko@maddevs.kg",
     "role": "executive",
     "companyId": "c1",
     "avatar": null
   },
   {
     "id": "u4",
-    "name": "Козлова Анна Игоревна",
-    "email": "kozlova@vektorsv.ru",
+    "name": "Ташматов Данияр Эрланович",
+    "email": "tashmatov@uniquetech.kg",
     "role": "gr_manager",
     "companyId": "c2",
     "avatar": null
   },
   {
     "id": "u5",
-    "name": "Морозов Сергей Александрович",
-    "email": "morozov@infranet.ru",
+    "name": "Бекболотов Азат Жолдошевич",
+    "email": "bekbolotov@nambaone.kg",
     "role": "gr_manager",
     "companyId": "c3",
     "avatar": null
   },
   {
     "id": "u6",
-    "name": "Волкова Елена Николаевна",
-    "email": "volkova@consultant.ru",
+    "name": "Сатыбалдиева Мээрим Кубанычбековна",
+    "email": "satybaldiyeva@grconsult.kg",
     "role": "consultant",
     "companyId": null,
     "avatar": null
   },
   {
     "id": "u7",
-    "name": "Новиков Андрей Викторович",
-    "email": "novikov@consultant.ru",
+    "name": "Кадыров Тимур Маратович",
+    "email": "kadyrov@grconsult.kg",
     "role": "consultant",
     "companyId": null,
     "avatar": null
   },
   {
     "id": "u8",
-    "name": "Федорова Ольга Дмитриевна",
-    "email": "fedorova@digital.ru",
+    "name": "Осмонова Назгуль Алмазовна",
+    "email": "osmonova@opencbs.kg",
     "role": "lawyer",
     "companyId": "c4",
     "avatar": null
@@ -66,7 +66,7 @@
   {
     "id": "u9",
     "name": "Администратор Системы",
-    "email": "admin@grplatform.ru",
+    "email": "admin@grplatform.kg",
     "role": "admin",
     "companyId": null,
     "avatar": null

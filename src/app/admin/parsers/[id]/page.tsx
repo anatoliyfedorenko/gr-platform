@@ -83,11 +83,11 @@ interface ParserRun {
 // ---------------------------------------------------------------------------
 
 const DEFAULT_PARSERS: Parser[] = [
-  { id: 'parser-1', name: 'Государственная Дума — RSS', sourceUrl: 'https://duma.gov.ru/rss/news/', status: 'running', lastRun: '2026-02-19T08:30:00Z', sourceType: 'rss', schedule: '0 * * * *', authType: 'none', riskAssessment: true, deduplication: true, dedupStrategy: 'title', notifications: true, enabled: true },
-  { id: 'parser-2', name: 'Минцифры — Новости', sourceUrl: 'https://digital.gov.ru/ru/events/', status: 'running', lastRun: '2026-02-19T07:45:00Z', sourceType: 'html', schedule: '*/30 * * * *', authType: 'none', riskAssessment: false, deduplication: true, dedupStrategy: 'url', notifications: true, enabled: true },
-  { id: 'parser-3', name: 'Regulation.gov.ru API', sourceUrl: 'https://regulation.gov.ru/api/v1/', status: 'stopped', lastRun: '2026-02-18T23:00:00Z', sourceType: 'api', schedule: '0 0 * * *', authType: 'api_key', riskAssessment: true, deduplication: true, dedupStrategy: 'hash', notifications: false, enabled: false },
-  { id: 'parser-4', name: 'Telegram — GR Мониторинг', sourceUrl: 'https://t.me/gr_monitoring', status: 'error', lastRun: '2026-02-19T06:00:00Z', sourceType: 'telegram', schedule: '*/15 * * * *', authType: 'oauth', riskAssessment: false, deduplication: false, dedupStrategy: 'title', notifications: true, enabled: true },
-  { id: 'parser-5', name: 'ФАС России — Решения', sourceUrl: 'https://fas.gov.ru/documents', status: 'running', lastRun: '2026-02-19T09:00:00Z', sourceType: 'html', schedule: '0 * * * *', authType: 'none', riskAssessment: true, deduplication: true, dedupStrategy: 'url', notifications: true, enabled: true },
+  { id: 'parser-1', name: 'Жогорку Кенеш — Законопроекты', sourceUrl: 'https://kenesh.kg/ru/rss/draft-laws', status: 'running', lastRun: '2026-02-19T08:30:00Z', sourceType: 'rss', schedule: '0 * * * *', authType: 'none', riskAssessment: true, deduplication: true, dedupStrategy: 'title', notifications: true, enabled: true },
+  { id: 'parser-2', name: 'Минцифры КР — Новости', sourceUrl: 'https://digital.gov.kg/ru/news/', status: 'running', lastRun: '2026-02-19T07:45:00Z', sourceType: 'html', schedule: '*/30 * * * *', authType: 'none', riskAssessment: false, deduplication: true, dedupStrategy: 'url', notifications: true, enabled: true },
+  { id: 'parser-3', name: 'ЦБД Минюста КР', sourceUrl: 'https://cbd.minjust.gov.kg/act/api/v1/', status: 'stopped', lastRun: '2026-02-18T23:00:00Z', sourceType: 'api', schedule: '0 0 * * *', authType: 'api_key', riskAssessment: true, deduplication: true, dedupStrategy: 'hash', notifications: false, enabled: false },
+  { id: 'parser-4', name: 'Telegram — GR Мониторинг', sourceUrl: 'https://t.me/gr_monitoring_kg', status: 'error', lastRun: '2026-02-19T06:00:00Z', sourceType: 'telegram', schedule: '*/15 * * * *', authType: 'oauth', riskAssessment: false, deduplication: false, dedupStrategy: 'title', notifications: true, enabled: true },
+  { id: 'parser-5', name: 'СРРС КР — Документы', sourceUrl: 'https://nas.gov.kg/ru/documents', status: 'running', lastRun: '2026-02-19T09:00:00Z', sourceType: 'html', schedule: '0 * * * *', authType: 'none', riskAssessment: true, deduplication: true, dedupStrategy: 'url', notifications: true, enabled: true },
 ];
 
 const DEFAULT_PARSER_RUNS: ParserRun[] = [
@@ -107,24 +107,24 @@ const DEFAULT_PARSER_RUNS: ParserRun[] = [
 
 // Mock output records
 const MOCK_OUTPUT_RECORDS = [
-  { id: 'rec-1', title: 'Проект федерального закона о регулировании цифровых платформ', sourceUrl: 'https://duma.gov.ru/news/58234/', dateParsed: '2026-02-19T08:30:00Z', status: 'new', riskScore: 'high' },
-  { id: 'rec-2', title: 'Поправки к закону о персональных данных (ФЗ-152)', sourceUrl: 'https://regulation.gov.ru/p/142568', dateParsed: '2026-02-19T08:30:10Z', status: 'new', riskScore: 'high' },
-  { id: 'rec-3', title: 'О внесении изменений в закон о связи в части 5G-частот', sourceUrl: 'https://duma.gov.ru/news/58201/', dateParsed: '2026-02-19T07:30:00Z', status: 'updated', riskScore: 'medium' },
-  { id: 'rec-4', title: 'Минцифры утвердило новые требования к хранению данных', sourceUrl: 'https://digital.gov.ru/ru/events/12345/', dateParsed: '2026-02-19T07:45:00Z', status: 'new', riskScore: 'medium' },
-  { id: 'rec-5', title: 'ФАС возбудила дело о нарушении антимонопольного законодательства', sourceUrl: 'https://fas.gov.ru/documents/789456', dateParsed: '2026-02-19T09:00:00Z', status: 'new', riskScore: 'high' },
-  { id: 'rec-6', title: 'Об установлении тарифов на услуги связи общего пользования', sourceUrl: 'https://regulation.gov.ru/p/142600', dateParsed: '2026-02-18T23:00:00Z', status: 'duplicate', riskScore: 'low' },
-  { id: 'rec-7', title: 'Изменения в порядке лицензирования телеком-операторов', sourceUrl: 'https://digital.gov.ru/ru/events/12350/', dateParsed: '2026-02-18T23:00:30Z', status: 'updated', riskScore: 'medium' },
-  { id: 'rec-8', title: 'Проект постановления о кибербезопасности КИИ', sourceUrl: 'https://regulation.gov.ru/p/142610', dateParsed: '2026-02-18T23:01:00Z', status: 'new', riskScore: 'high' },
-  { id: 'rec-9', title: 'О цифровизации государственных услуг — второе чтение', sourceUrl: 'https://duma.gov.ru/news/58190/', dateParsed: '2026-02-19T06:30:00Z', status: 'duplicate', riskScore: 'low' },
-  { id: 'rec-10', title: 'Регулирование OTT-сервисов: новый законопроект', sourceUrl: 'https://duma.gov.ru/news/58220/', dateParsed: '2026-02-19T08:30:20Z', status: 'new', riskScore: 'medium' },
+  { id: 'rec-1', title: 'Проект закона о внесении изменений в Закон о ПВТ КР', sourceUrl: 'https://kenesh.kg/ru/draft-law/58234/', dateParsed: '2026-02-19T08:30:00Z', status: 'new', riskScore: 'high' },
+  { id: 'rec-2', title: 'Поправки к Закону о персональной информации КР', sourceUrl: 'https://cbd.minjust.gov.kg/act/view/ru-ru/203456', dateParsed: '2026-02-19T08:30:10Z', status: 'new', riskScore: 'high' },
+  { id: 'rec-3', title: 'О внесении изменений в Цифровой кодекс КР', sourceUrl: 'https://kenesh.kg/ru/draft-law/58201/', dateParsed: '2026-02-19T07:30:00Z', status: 'updated', riskScore: 'medium' },
+  { id: 'rec-4', title: 'Минцифры КР утвердило требования к операторам электронного правительства', sourceUrl: 'https://digital.gov.kg/ru/news/12345/', dateParsed: '2026-02-19T07:45:00Z', status: 'new', riskScore: 'medium' },
+  { id: 'rec-5', title: 'СРРС КР выявила нарушения лицензионных условий оператором связи', sourceUrl: 'https://nas.gov.kg/ru/documents/789456', dateParsed: '2026-02-19T09:00:00Z', status: 'new', riskScore: 'high' },
+  { id: 'rec-6', title: 'Об установлении тарифов на услуги связи в КР', sourceUrl: 'https://nas.gov.kg/ru/documents/142600', dateParsed: '2026-02-18T23:00:00Z', status: 'duplicate', riskScore: 'low' },
+  { id: 'rec-7', title: 'Изменения в порядке регистрации резидентов ПВТ', sourceUrl: 'https://htp.kg/news/12350/', dateParsed: '2026-02-18T23:00:30Z', status: 'updated', riskScore: 'medium' },
+  { id: 'rec-8', title: 'Проект постановления о кибербезопасности КР', sourceUrl: 'https://gov.kg/ru/npa/142610', dateParsed: '2026-02-18T23:01:00Z', status: 'new', riskScore: 'high' },
+  { id: 'rec-9', title: 'О цифровизации государственных услуг КР — второе чтение', sourceUrl: 'https://kenesh.kg/ru/draft-law/58190/', dateParsed: '2026-02-19T06:30:00Z', status: 'duplicate', riskScore: 'low' },
+  { id: 'rec-10', title: 'Регулирование электронной коммерции в КР: новый законопроект', sourceUrl: 'https://kenesh.kg/ru/draft-law/58220/', dateParsed: '2026-02-19T08:30:20Z', status: 'new', riskScore: 'medium' },
 ];
 
 // Mock errors
 const MOCK_ERRORS = [
   { id: 'err-1', timestamp: '2026-02-19T06:00:03Z', type: 'auth', message: 'Auth token expired for Telegram channel parser', details: 'OAuth2 refresh token is invalid or expired. Token was issued on 2026-01-15 and has a 30-day validity period. Please re-authenticate through the Telegram Bot API settings.' },
   { id: 'err-2', timestamp: '2026-02-19T05:00:02Z', type: 'auth', message: 'Auth token expired for Telegram channel parser', details: 'Same issue as above. Consecutive auth failures detected.' },
-  { id: 'err-3', timestamp: '2026-02-19T06:45:05Z', type: 'timeout', message: 'Connection timeout to digital.gov.ru', details: 'TCP connection timed out after 30000ms. The remote server did not respond within the configured timeout. This may be due to server maintenance or network issues.' },
-  { id: 'err-4', timestamp: '2026-02-19T05:30:04Z', type: 'parse', message: 'DNS resolution failed for duma.gov.ru', details: 'NXDOMAIN error when resolving duma.gov.ru. DNS server returned no results. This was a temporary DNS issue that resolved after 15 minutes.' },
+  { id: 'err-3', timestamp: '2026-02-19T06:45:05Z', type: 'timeout', message: 'Connection timeout to digital.gov.kg', details: 'TCP connection timed out after 30000ms. The remote server did not respond within the configured timeout. This may be due to server maintenance or network issues.' },
+  { id: 'err-4', timestamp: '2026-02-19T05:30:04Z', type: 'parse', message: 'DNS resolution failed for kenesh.kg', details: 'NXDOMAIN error when resolving kenesh.kg. DNS server returned no results. This was a temporary DNS issue that resolved after 15 minutes.' },
   { id: 'err-5', timestamp: '2026-02-18T22:00:10Z', type: 'validation', message: 'Invalid date format in parsed record', details: 'Expected date format YYYY-MM-DD but received "19 февраля 2026" in field "publishDate". Record was skipped. Consider updating the date parser configuration.' },
 ];
 

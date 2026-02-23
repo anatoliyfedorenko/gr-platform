@@ -24,8 +24,8 @@ export function formatRiskLevel(risk: string): string {
 }
 
 /**
- * Formats a currency range in millions of rubles.
- * E.g., formatCurrencyRange(15000000, 45000000) => "от 15 до 45 млн ₽"
+ * Formats a currency range in millions of soms.
+ * E.g., formatCurrencyRange(15000000, 45000000) => "от 15 до 45 млн сом"
  */
 export function formatCurrencyRange(min: number, max: number): string {
   const formatValue = (v: number): string => {
@@ -44,7 +44,7 @@ export function formatCurrencyRange(min: number, max: number): string {
     return `${v}`;
   };
 
-  return `от ${formatValue(min)} до ${formatValue(max)} \u20BD`;
+  return `от ${formatValue(min)} до ${formatValue(max)} сом`;
 }
 
 /**

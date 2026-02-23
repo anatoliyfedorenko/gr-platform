@@ -158,7 +158,7 @@ export default function AdminCreateUserPage() {
                   type="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+7 (999) 123-45-67"
+                  placeholder="+996 (555) 123-456"
                 />
               </div>
               <div>
